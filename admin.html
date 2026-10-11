@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hisab — Admin</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { font-family:-apple-system,'Segoe UI',Roboto,sans-serif; background:#071f14; color:#eafff2; padding:14px 14px 30px; }
+  .head { display:flex; align-items:center; gap:12px; background:linear-gradient(135deg,#0d3520,#0a2a19); border:1px solid #175732; border-radius:18px; padding:14px; }
+  .logo { width:52px; height:52px; border-radius:14px; background:#0f5132; display:flex; align-items:center; justify-content:center; font-size:30px; font-weight:900; color:#2fe673; border:1px solid #1d7a46; flex:none; }
+  .shopname { font-size:19px; font-weight:800; line-height:1.2; }
+  .subline { font-size:12.5px; color:#9fd8b4; margin-top:2px; }
+  .badge { margin-left:auto; background:#2fe673; color:#04331a; font-size:11px; font-weight:800; padding:5px 9px; border-radius:999px; flex:none; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+  .stat { background:#0d3520; border:1px solid #175732; border-radius:16px; padding:13px 14px; }
+  .stat .lbl { font-size:12.5px; color:#9fd8b4; }
+  .stat .val { font-size:22px; font-weight:800; margin-top:3px; }
+  .card { background:#0d3520; border:1px solid #175732; border-radius:16px; padding:14px; margin-top:12px; }
+  .card h3 { font-size:15px; margin-bottom:4px; }
+  .meta { font-size:12.5px; color:#9fd8b4; line-height:1.55; }
+  .pill { display:inline-block; font-size:11px; font-weight:800; padding:3px 8px; border-radius:999px; margin-left:6px; vertical-align:1px; }
+  .pill.on { background:#2fe673; color:#04331a; }
+  .pill.off { background:#5a2d2d; color:#ffb4b4; }
+  .pill.trial { background:#e8c33a; color:#3a2e04; }
+  .pill.paid { background:#2f7de1; color:#eaf4ff; }
+  .btn { width:100%; margin-top:12px; background:#2fe673; color:#04331a; border:none; font-size:15px; font-weight:800; padding:13px; border-radius:14px; cursor:pointer; }
+  .note { font-size:12px; color:#9fd8b4; text-align:center; margin-top:14px; line-height:1.5; }
+  #msg { text-align:center; color:#9fd8b4; font-size:14px; margin-top:26px; line-height:1.6; padding:0 12px; }
+</style>
+</head>
+<body>
+<div class="head">
+  <div class="logo">ሂ</div>
+  <div>
+    <div class="shopname">Hisab — Admin</div>
+    <div class="subline">All shops · metadata only</div>
+  </div>
+  <div class="badge">OWNER</div>
+</div>
+
+<div id="app" style="display:none">
+  <div class="grid">
+    <div class="stat"><div class="lbl">🏪 Shops</div><div class="val" id="sTotal">–</div></div>
+    <div class="stat"><div class="lbl">✅ Active</div><div class="val" id="sActive">–</div></div>
+    <div class="stat"><div class="lbl">🆓 On free trial</div><div class="val" id="sTrial">–</div></div>
+    <div class="stat"><div class="lbl">💳 Paid</div><div class="val" id="sPaid">–</div></div>
+  </div>
+  <div id="shops"></div>
+  <button class="btn" id="refreshBtn">↻ Refresh</button>
+  <div class="note">🔒 By design, this page never shows any shop's money.<br>Shop numbers live only in each shop's own book.</div>
+</div>
+<div id="msg">Loading…</div>
+
+<script>
+var FN = 'https://xhstkljqhulkkwfrwqpv.supabase.co/functions/v1/swift-action';
+var tg = window.Telegram ? window.Telegram.WebApp : null;
+if (tg) { tg.ready(); tg.expand(); }
+
+function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function dayNum(ts) {
+  if (!ts) return null;
+  var start = new Date(String(ts).slice(0,10) + 'T00:00:00');
+  var now = new Date(); now.setHours(0,0,0,0);
+  return Math.floor((now - start) / 86400000) + 1;
+}
+function render(d) {
+  var shops = d.shops || [];
+  document.getElementById('sTotal').textContent = shops.length;
+  document.getElementById('sActive').textContent = shops.filter(function(s){ return s.status === 'active'; }).length;
+  document.getElementById('sTrial').textContent = shops.filter(function(s){ return s.plan === 'trial' && s.status === 'active'; }).length;
+  document.getElementById('sPaid').textContent = shops.filter(function(s){ return s.plan !== 'trial'; }).length;
+  var html = '';
+  shops.forEach(function(s) {
+    var status = s.status === 'active'
+      ? '<span class="pill on">ACTIVE</span>'
+      : '<span class="pill off">' + esc(String(s.status).toUpperCase()) + '</span>';
+    var plan;
+    if (s.plan === 'trial') {
+      var day = dayNum(s.trial_start);
+      plan = '<span class="pill trial">FREE TRIAL' + (day ? ' · day ' + day + ' of 14' : '') + '</span>';
+    } else {
+      plan = '<span class="pill paid">PAID' + (s.paid_until ? ' · until ' + esc(String(s.paid_until).slice(0,10)) : '') + '</span>';
+    }
+    html += '<div class="card"><h3>' + esc(s.name) + status + plan + '</h3>' +
+      '<div class="meta">code: ' + esc(s.code) + ' · type: ' + esc(s.type) + '<br>' +
+      '👥 people: ' + (s.people || 0) + ' · joined: ' + esc(String(s.created_at || '').slice(0,10)) + '</div></div>';
+  });
+  document.getElementById('shops').innerHTML = html || '<div class="card"><div class="meta">No shops yet.</div></div>';
+  document.getElementById('msg').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+function fail(t) {
+  var m = document.getElementById('msg');
+  m.style.display = 'block'; m.textContent = t;
+  document.getElementById('app').style.display = 'none';
+}
+function load() {
+  document.getElementById('msg').style.display = 'block';
+  document.getElementById('msg').textContent = 'Loading…';
+  document.getElementById('app').style.display = 'none';
+  fetch(FN, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ initData: tg ? tg.initData : '', app: 'admin' })
+  }).then(function(r) { return r.json().then(function(j) { return { s: r.status, j: j }; }); })
+    .then(function(x) {
+      if (x.s === 401 || !x.j.ok) { fail('Open this page from the Hisab bot (admin account) — that is how it knows it is you.'); return; }
+      render(x.j);
+    })
+    .catch(function() { fail('Could not load. Check your connection and tap Refresh inside the bot.'); });
+}
+document.getElementById('refreshBtn').addEventListener('click', load);
+load();
+</script>
+</body>
+</html>
