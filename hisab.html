@@ -31,6 +31,9 @@
   .entry .tm { color:#9fd8b4; font-size:12px; white-space:nowrap; }
   .entry .dt { color:#c9f2d8; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .diff-ok { color:#7dffab; font-weight:700; }
+  .toggle { display:flex; gap:9px; margin-top:12px; }
+  .toggle button { flex:1; background:#0d3520; color:#9fd8b4; border:1px solid #1d7a46; border-radius:12px; padding:11px; font-size:14px; font-weight:800; cursor:pointer; }
+  .toggle button.on { background:#2fe673; color:#04331a; border-color:#2fe673; }
   .diff-bad { color:#ffb35c; font-weight:700; }
   .btns { display:flex; gap:10px; margin-top:14px; }
   button { flex:1; background:#2fe673; color:#04331a; border:none; border-radius:13px; padding:13px; font-size:15px; font-weight:800; cursor:pointer; }
@@ -52,8 +55,13 @@ function fail(am, en) {
   document.getElementById('app').innerHTML = '<div class="msg">' + am + '<br>' + en + '</div>';
 }
 var API_URL = 'https://xhstkljqhulkkwfrwqpv.supabase.co/functions/v1/swift-action';
+var RANGE = 'today';
+function setRange(r) { RANGE = r; load(); }
 function callApi(action, done) {
   var body = { initData: tg ? tg.initData : '' };
+  body.range = RANGE;
+  var shopQ = new URLSearchParams(location.search).get('shop');
+  if (shopQ) body.shop = shopQ;
   if (action) body.action = action;
   fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
     .then(function (r) { return r.json(); })
@@ -62,12 +70,13 @@ function callApi(action, done) {
 }
 function render(d) {
   if (!d || !d.ok) { fail('🔒 ይህ ገጽ ከሂሳብ ቦት ውስጥ ብቻ ይከፈታል።', 'Open this dashboard from inside the Hisab bot.'); return; }
-  var t = d.totals, h = '';
+  var t = d.totals, h = '', isM = d.range === 'month';
   h += '<div class="head"><div class="logo">ሂ</div><div><div class="shopname">' + esc(d.shop.name) + '</div>'
      + '<div class="subline">' + esc(d.date) + (d.streak > 0 ? ' · <span class="streak">🔥 ' + d.streak + '</span>' : '') + '</div></div>'
      + '<div class="badge">MANAGER</div></div>';
+  h += '<div class="toggle"><button class="' + (!isM ? 'on' : '') + '" onclick="setRange(\'today\')">ዛሬ · Today</button><button class="' + (isM ? 'on' : '') + '" onclick="setRange(\'month\')">📅 ወር · Month</button></div>';
   h += '<div class="grid">'
-     + '<div class="stat hero"><div class="lbl">💰 ዛሬ የተሸጠ · Sold today</div><div class="val">' + fmt(t.sold) + '</div></div>'
+     + '<div class="stat hero"><div class="lbl">💰 ' + (isM ? 'የወሩ ሽያጭ · Sold this month' : 'ዛሬ የተሸጠ · Sold today') + '</div><div class="val">' + fmt(t.sold) + '</div></div>'
      + '<div class="stat"><div class="lbl">🧾 ወጪ · Spent</div><div class="val">' + fmt(t.spent) + '</div></div>'
      + '<div class="stat"><div class="lbl">✅ ቀሪ · Money left</div><div class="val">' + fmt(t.left) + '</div></div>'
      + '<div class="stat"><div class="lbl">💛 ዕዳ · Owed to you</div><div class="val">' + fmt(t.owed) + '</div></div>'
@@ -96,6 +105,14 @@ function render(d) {
        + '<div class="toprow"><span>📒 ተመዝግቧል · Recorded</span><span class="amt">' + fmt(d.closing.recorded) + '</span></div>'
        + '<div class="toprow"><span>ልዩነት · Difference</span><span class="amt ' + (ok ? 'diff-ok' : 'diff-bad') + '">' + fmt(d.closing.diff) + (ok ? ' ✓' : '') + '</span></div></div>';
   }
+  if (isM) {
+    h += '<div class="card"><h3>📅 የወሩ ቀናት · Days this month</h3>';
+    if (!d.days || !d.days.length) h += '<div class="msg" style="padding:16px">በዚህ ወር ገና ምንም የለም።<br>Nothing yet this month.</div>';
+    else for (var k = 0; k < d.days.length; k++) {
+      h += '<div class="toprow"><span>' + esc(d.days[k].day) + '</span><span style="color:#9fd8b4;font-size:12.5px">' + d.days[k].count + ' entries</span><span class="amt">' + fmt(d.days[k].sold) + '</span></div>';
+    }
+    h += '</div>';
+  } else {
   h += '<div class="card"><h3>📋 የዛሬ መዝገቦች · Today\'s records</h3>';
   if (!d.entries.length) h += '<div class="msg" style="padding:16px">ዛሬ ገና ምንም አልተመዘገበም።<br>Nothing recorded yet today.</div>';
   for (var j = 0; j < d.entries.length; j++) {
@@ -105,7 +122,8 @@ function render(d) {
     h += '<div class="entry"><span>' + icon + '</span><span class="dt">' + esc(det) + '</span><span class="amt">' + fmt(e.amount) + '</span><span class="tm">' + esc(e.time) + '</span></div>';
   }
   h += '</div>';
-  h += '<div class="btns"><button class="ghost" id="btnRefresh">🔄 Refresh</button><button id="btnExcel">📥 Excel</button></div>';
+  }
+  h += '<div class="btns"><button class="ghost" id="btnRefresh">🔄 Refresh</button><button id="btnExcel">📥 Excel' + (isM ? ' · ወር' : '') + '</button></div>';
   document.getElementById('app').innerHTML = h;
   document.getElementById('btnRefresh').onclick = function () { load(); };
   document.getElementById('btnExcel').onclick = function () {

@@ -69,6 +69,8 @@ function fail() { document.getElementById('app').innerHTML = '<div class="msg">�
 function api(body, done) {
   body.initData = tg ? tg.initData : '';
   body.app = 'till';
+  var shopQ = new URLSearchParams(location.search).get('shop');
+  if (shopQ) body.shop = shopQ;
   fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
     .then(function (r) { return r.json(); }).then(done)
     .catch(function () { if (tg) tg.showPopup({ message: '⚠️ Connection failed' }); });
