@@ -57,9 +57,10 @@ function fail(am, en) {
 var API_URL = 'https://xhstkljqhulkkwfrwqpv.supabase.co/functions/v1/swift-action';
 var RANGE = 'today';
 function setRange(r) { RANGE = r; load(); }
-function callApi(action, done) {
+function callApi(action, done, lang) {
   var body = { initData: tg ? tg.initData : '' };
   body.range = RANGE;
+  if (lang) body.lang = lang;
   var shopQ = new URLSearchParams(location.search).get('shop');
   if (shopQ) body.shop = shopQ;
   if (action) body.action = action;
@@ -124,13 +125,19 @@ function render(d) {
   h += '</div>';
   }
   h += '<div class="btns"><button class="ghost" id="btnRefresh">🔄 Refresh</button><button id="btnExcel">📥 Excel' + (isM ? ' · ወር' : '') + '</button></div>';
+  h += '<div class="btns" id="excelPick" style="display:none"><button data-xl="am">🇪🇹 አማርኛ Excel</button><button data-xl="en">🇬🇧 English Excel</button></div>';
   document.getElementById('app').innerHTML = h;
   document.getElementById('btnRefresh').onclick = function () { load(); };
   document.getElementById('btnExcel').onclick = function () {
+    var p = document.getElementById('excelPick');
+    p.style.display = p.style.display === 'none' ? '' : 'none';
+  };
+  var picks = document.querySelectorAll('[data-xl]');
+  for (var k = 0; k < picks.length; k++) picks[k].onclick = function () {
     callApi('excel', function (r) {
       if (r && r.ok) { if (tg) tg.showPopup({ message: '📥 Excel ወደ ቴሌግራም ቻትዎ ተልኳል ✓' }); }
       else fail('⚠️ Excel አልተላከም።', 'The Excel could not be sent.');
-    });
+    }, this.getAttribute('data-xl'));
   };
 }
 function load() { callApi(null, render); }
