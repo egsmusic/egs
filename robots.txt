@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://egsmusic.github.io/egs/sitemap.xml
