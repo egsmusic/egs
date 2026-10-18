@@ -284,7 +284,7 @@ details.more>summary{cursor:pointer;font-weight:700;font-size:14px;padding:4px 0
   <main id="views">
     <section id="v-home" class="view on">
       <h2 id="greet" style="font-size:24px;font-weight:800;margin:6px 0 2px"></h2>
-      <div id="installRow" style="display:none"><div class="instCard"><div class="instIco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="instTx"><b data-i18n="installTitle">Download the app</b><span data-i18n="installSub">Add ES to your home screen</span></div><button id="installBtn" type="button" data-i18n="install">Install</button><button id="installX" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div><p id="installHint" class="muted" style="display:none;font-size:13px;margin:8px 4px 0"></p></div>
+      <div id="installRow" style="display:none"><div class="instCard"><div class="instIco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="instTx"><b data-i18n="installTitle">Download the app</b><span data-i18n="installSub">Add ES to your home screen</span></div><button id="installBtn" type="button" data-i18n="install">Install</button><button id="installX" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div><p id="installHint" style="display:none;font-size:14px;line-height:1.55;margin:10px 2px 0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 12px"></p></div>
       <div class="sec-t"><span data-i18n="newUploads">New uploads</span></div>
       <div class="hrow" id="homeNewRow"></div>
       <div class="sec-t"><span data-i18n="playlists">Playlists</span></div>
@@ -391,7 +391,7 @@ function coverStyle(hue){ return "background:linear-gradient(135deg,hsl("+hue+",
 
 /* ================= I18N ================= */
 const STR = {
-en:{tagline:"Ethiopian Songs",installTitle:"Download the app",installSub:"Add ES to your home screen",install:"Install",iosHint:"Tap the Share button, then choose Add to Home Screen.",menuHint:"Open your browser menu, then choose Install app or Add to Home Screen.",home:"Home",search:"Search",library:"Library",account:"Account",nowPlaying:"NOW PLAYING",
+en:{tagline:"Ethiopian Songs",installTitle:"Download the app",installSub:"Add ES to your home screen",install:"Install",iosHint:"To install: tap the Share button (square with an arrow), scroll down and tap \u201cAdd to Home Screen\u201d, then tap \u201cAdd\u201d.",menuHint:"To install: tap \u22ee at the top-right corner of Chrome, then tap \u201cInstall app\u201d (or \u201cAdd to Home screen\u201d), then confirm.",wvHint:"You opened ES inside another app, so Chrome can't install from here. Open this page in the Chrome app first, then tap Install.",home:"Home",search:"Search",library:"Library",account:"Account",nowPlaying:"NOW PLAYING",
 greetM:"Good morning",greetA:"Good afternoon",greetE:"Good evening",
 playlists:"Playlists",hymnsTitle:"Songs",newUploads:"New uploads",community:"Community uploads",forYou:"For you",allSongs:"All songs",
 searchPh:"Search songs or artists...",noResults:"No results found.",
@@ -423,7 +423,7 @@ errUp:"Couldn't create the account. Try a different email.",
 errUpload:"Upload failed. Please try again.",errPerm:"You don't have permission for that.",
 signedIn:"Welcome!",reportSong:"Report this song",sleepTimer:"Sleep timer",sleepOff:"Turn off timer",sleepEnd:"After this song",sleepMin:"minutes",sleepSet:"Timer set",sleepStopped:"Playback stopped",signedOut:"Signed out.",myAccount:"My account",admin:"Admin",artist:"Artist",songs:"songs",playAll:"Play all",back:"Back",updates:"Updates",noUpdates:"No updates yet.",notifApproved:"was approved and is now live ✓",notifRejected:"was not approved",markAllRead:"Mark all read",makeArtist:"Make artist",artistNote:"Uploads are invite-only. Enter the artist's account email to let them upload songs.",artistGranted:"Artist access granted",
 plays:"plays",errNet:"Connection problem. Try again.",beArtist:"Are you an artist?",beArtistSub:"Only verified artists can upload songs. Apply once — we check your details and approve you.",beArtistSignIn:"Only verified artists can upload songs. Create a free account (or log in) above, then apply here.",aName:"Artist or ministry name",aContact:"Phone or Telegram (so we can verify you)",aLink:"Link to your music (YouTube, Facebook, TikTok…)",aMsg:"Tell us about yourself (optional)",aSend:"Send application",aSent:"Application sent! We will review it soon.",aPending:"Your application is being reviewed. You can upload as soon as it is approved.",aRejected:"Your application was not approved. Check your details and apply again.",aNeed:"Please enter your artist name and a phone or Telegram.",aErr:"Couldn't send your application. Try again later.",appsQ:"Artist applications",noApps:"No applications waiting.",upHeader:"Upload your song",upIntroLive:"3 easy steps. Your song goes live for everyone as soon as you press Publish.",upIntroReview:"3 easy steps. After you press Publish, an admin reviews your song before it goes live.",step1:"Choose your audio file",step2:"Song details",step3:"Cover and lyrics (optional)",pickAudio:"Tap to choose your audio",pickAudioSub:"MP3, M4A, WAV, AAC or OGG — up to 50 MB",pickedAudio:"Audio selected — tap to change",upNotAudio:"That is not an audio file. Choose an MP3, M4A, WAV, AAC or OGG file.",upTooBig:"This file is bigger than 50 MB. Export a smaller MP3 and try again.",upNeedAudio:"Choose an audio file first.",upNeedTitle:"Enter the song title.",upNeedArtist:"Enter the artist name.",upNeedRights:"Tick the box to confirm you have the rights to this music.",rightsChk:"I own this music or have permission to share it. I understand it can be removed if someone reports it.",publish:"Publish song",uploading:"Uploading",songLive:"Your song is live! 🎉",listenNow:"Listen now",upAnother:"Upload another song",myDelete:"Delete",manyTitle:"Upload many songs at once (album)",offlineUp:"You are offline. Connect to the internet to upload.",bulkDoneLive:"All songs are live!",tapToPlay:"Tap \u25b6 to keep the music playing"},
-am:{tagline:"የኢትዮጵያ ዜማዎች",installTitle:"መተግበሪያውን አውርድ",installSub:"ESን ወደ መነሻ ማያ ገጽዎ ጨምር",install:"ጫን",iosHint:"የShare ቁልፉን ይንኩ፣ ከዚያ «ወደ መነሻ ማያ ገጽ ጨምር» ይምረጡ።",menuHint:"የአሳሽዎን ምናሌ ይክፈቱ፣ ከዚያ «መተግበሪያ ጫን» ወይም «ወደ መነሻ ማያ ገጽ ጨምር» ይምረጡ።",home:"መነሻ",search:"ፍለጋ",library:"ላይብረሪ",account:"መለያ",nowPlaying:"አሁን እየተጫወተ",
+am:{tagline:"የኢትዮጵያ ዜማዎች",installTitle:"መተግበሪያውን አውርድ",installSub:"ESን ወደ መነሻ ማያ ገጽዎ ጨምር",install:"ጫን",iosHint:"ለመጫን: የShare ቁልፉን (አራት ማዕዘኑን ከቀስቱ ጋር) ይንኩ፣ ወደ ታች ያሸብልሉና «ወደ መነሻ ማያ ገጽ ጨምር» ይንኩ፣ ከዚያ «ጨምር» ይንኩ።",menuHint:"ለመጫን: በChrome ላይኛው ቀኝ ጥግ ላይ ያለውን \u22ee ይንኩ፣ ከዚያ «መተግበሪያ ጫን» (ወይም «ወደ መነሻ ማያ ገጽ ጨምር») ይንኩ፣ ከዚያ ያረጋግጡ።",wvHint:"ESን በሌላ መተግበሪያ ውስጥ ከፍተዋል፤ ከዚህ መጫን አይቻልም። መጀመሪያ ይህን ገጽ በChrome መተግበሪያ ይክፈቱ፣ ከዚያ «ጫን» ይንኩ።",home:"መነሻ",search:"ፍለጋ",library:"ላይብረሪ",account:"መለያ",nowPlaying:"አሁን እየተጫወተ",
 greetM:"እንደምን አደሩ",greetA:"እንደምን ዋሉ",greetE:"እንደምን አመሹ",
 playlists:"የዘፈን ዝርዝሮች",hymnsTitle:"ዜማዎች",newUploads:"አዳዲስ ዜማዎች",community:"የማኅበረሰብ ስቅሎች",forYou:"ለእርስዎ",allSongs:"ሁሉም ዜማዎች",
 searchPh:"ዜማ ወይም ድምጻዊ ፈልግ...",noResults:"ምንም አልተገኘም።",
@@ -2053,7 +2053,7 @@ function installRow(){
   try{ const x=+localStorage.getItem("egs_install_x")||0; if(x && Date.now()-x<3*864e5) hide=true; }catch(e){}
   row.style.display=hide?"none":"block";
 }
-window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferredPrompt=e; installRow(); });
+window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferredPrompt=e; installRow(); const h=$("#installHint"); if(h) h.style.display="none"; });
 window.addEventListener("appinstalled",()=>{ deferredPrompt=null; try{ localStorage.setItem("egs_install_x",String(Date.now()+365*864e5)); }catch(e){} installRow(); });
 document.addEventListener("DOMContentLoaded",()=>{
   installRow();
@@ -2061,7 +2061,10 @@ document.addEventListener("DOMContentLoaded",()=>{
   $("#installBtn").addEventListener("click",async()=>{
     if(deferredPrompt){ deferredPrompt.prompt(); try{ await deferredPrompt.userChoice; }catch(e){} deferredPrompt=null; installRow(); return; }
     const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
-    const h=$("#installHint"); h.textContent=t(ios?"iosHint":"menuHint"); h.style.display=h.style.display==="block"?"none":"block";
+    const h=$("#installHint"); if(!h) return;
+    let msg=t(ios?"iosHint":"menuHint");
+    if(!ios && (/\bwv\b/.test(navigator.userAgent)||/Telegram/i.test(navigator.userAgent))) msg=t("wvHint")+"<br><br>"+msg;
+    h.innerHTML=msg; h.style.display="block";
   });
 });
 
