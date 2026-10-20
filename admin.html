@@ -44,7 +44,7 @@
   <div class="grid">
     <div class="stat"><div class="lbl">🏪 Shops</div><div class="val" id="sTotal">–</div></div>
     <div class="stat"><div class="lbl">✅ Active</div><div class="val" id="sActive">–</div></div>
-    <div class="stat"><div class="lbl">🆓 On free trial</div><div class="val" id="sTrial">–</div></div>
+    <div class="stat"><div class="lbl">🧪 On free trial</div><div class="val" id="sTrial">–</div></div>
     <div class="stat"><div class="lbl">💳 Paid</div><div class="val" id="sPaid">–</div></div>
   </div>
   <div id="shops"></div>
@@ -78,8 +78,8 @@ function render(d) {
       : '<span class="pill off">' + esc(String(s.status).toUpperCase()) + '</span>';
     var plan;
     if (s.plan === 'trial') {
-      var day = dayNum(s.trial_start);
-      plan = '<span class="pill trial">FREE TRIAL' + (day ? ' · day ' + day + ' of 14' : '') + '</span>';
+      var dn = dayNum(s.trial_start);
+      plan = '<span class="pill trial">TRIAL' + (dn ? (dn > 14 ? ' · ENDED day ' + dn : ' · day ' + dn + ' of 14') : '') + '</span>';
     } else {
       plan = '<span class="pill paid">PAID' + (s.paid_until ? ' · until ' + esc(String(s.paid_until).slice(0,10)) : '') + '</span>';
     }
