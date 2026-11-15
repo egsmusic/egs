@@ -56,6 +56,9 @@ input,select,textarea{font-family:inherit}
 .artcard .a{display:block;font-size:11px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* song rows */
 .srow{display:flex;align-items:center;gap:12px;padding:9px 6px;border-radius:12px;width:100%;background:none;border:0;color:var(--txt);text-align:left}
+.top10row{display:flex;align-items:center;gap:2px}
+.top10row .rank{width:26px;flex:none;text-align:center;font-weight:800;font-size:16px;color:var(--gold)}
+.top10row .srow{flex:1;min-width:0}
 .srow:active{background:var(--card)}
 .cover{width:52px;height:52px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#fff8;text-shadow:0 1px 4px rgba(0,0,0,.5);position:relative;overflow:hidden}
 .cover::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent 0 7px,rgba(255,255,255,.07) 7px 9px)}
@@ -299,6 +302,8 @@ details.more>summary{cursor:pointer;font-weight:700;font-size:14px;padding:4px 0
       <div id="installRow" style="display:none"><div class="instCard"><div class="instIco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="instTx"><b data-i18n="installTitle">Download the app</b><span data-i18n="installSub">Add Kibir to your home screen</span></div><button id="installBtn" type="button" data-i18n="install">Install</button><button id="installX" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div><p id="installHint" style="display:none;font-size:14px;line-height:1.55;margin:10px 2px 0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 12px"></p></div>
       <div class="sec-t"><span data-i18n="newUploads">New uploads</span></div>
       <div class="hrow" id="homeNewRow"></div>
+      <div class="sec-t"><span data-i18n="top10">Weekly Top 10</span><small>Week 1</small></div>
+      <div id="homeTop10"></div>
       <div class="sec-t"><span data-i18n="playlists">Playlists</span></div>
       <div class="hrow" id="homePlRow"></div>
       <div class="sec-t"><span data-i18n="hymnsTitle">Songs</span></div>
@@ -405,7 +410,7 @@ function coverStyle(hue){ return "background:linear-gradient(135deg,hsl("+hue+",
 const STR = {
 en:{tagline:"Ethiopian Gospel Music",installTitle:"Download the app",installSub:"Add Kibir to your home screen",install:"Install",iosHint:"To install: tap the Share button (square with an arrow), scroll down and tap \u201cAdd to Home Screen\u201d, then tap \u201cAdd\u201d.",menuHint:"To install: tap \u22ee at the top-right corner of Chrome, then tap \u201cInstall app\u201d (or \u201cAdd to Home screen\u201d), then confirm.",wvHint:"You opened Kibir inside another app, so Chrome can't install from here. Open this page in the Chrome app first, then tap Install.",home:"Home",search:"Search",library:"Library",account:"Account",nowPlaying:"NOW PLAYING",
 greetM:"Good morning",greetA:"Good afternoon",greetE:"Good evening",
-playlists:"Playlists",hymnsTitle:"Songs",newUploads:"New uploads",community:"Community uploads",forYou:"For you",allSongs:"All songs",
+playlists:"Playlists",hymnsTitle:"Songs",newUploads:"New uploads",top10:"Weekly Top 10",community:"Community uploads",forYou:"For you",allSongs:"All songs",
 searchPh:"Search songs or artists...",noResults:"No results found.",
 favorites:"Favorites",noFav:"No favorites yet — tap the heart on any song.",
 newPlaylist:"New playlist",playlistName:"Playlist name",create:"Create",cancel:"Cancel",rename:"Rename",del:"Delete",
@@ -437,7 +442,7 @@ signedIn:"Welcome!",reportSong:"Report this song",sleepTimer:"Sleep timer",sleep
 plays:"plays",errNet:"Connection problem. Try again.",beArtist:"Are you an artist?",beArtistSub:"Only verified artists can upload songs. Apply once — we check your details and approve you.",beArtistSignIn:"Only verified artists can upload songs. Create a free account (or log in) above, then apply here.",aName:"Artist or ministry name",aContact:"Phone or Telegram (so we can verify you)",aLink:"Link to your music (YouTube, Facebook, TikTok…)",aMsg:"Tell us about yourself (optional)",aSend:"Send application",aSent:"Application sent! We will review it soon.",aPending:"Your application is being reviewed. You can upload as soon as it is approved.",aRejected:"Your application was not approved. Check your details and apply again.",aNeed:"Please enter your artist name and a phone or Telegram.",aErr:"Couldn't send your application. Try again later.",appsQ:"Artist applications",noApps:"No applications waiting.",upHeader:"Upload your song",upIntroLive:"3 easy steps. Your song goes live for everyone as soon as you press Publish.",upIntroReview:"3 easy steps. After you press Publish, an admin reviews your song before it goes live.",step1:"Choose your audio file",step2:"Song details",step3:"Cover and lyrics (optional)",pickAudio:"Tap to choose your audio",pickAudioSub:"MP3, M4A, WAV, AAC or OGG — up to 50 MB",pickedAudio:"Audio selected — tap to change",upNotAudio:"That is not an audio file. Choose an MP3, M4A, WAV, AAC or OGG file.",upTooBig:"This file is bigger than 50 MB. Export a smaller MP3 and try again.",upNeedAudio:"Choose an audio file first.",upNeedTitle:"Enter the song title.",upNeedArtist:"Enter the artist name.",upNeedRights:"Tick the box to confirm you have the rights to this music.",rightsChk:"I own this music or have permission to share it. I understand it can be removed if someone reports it.",publish:"Publish song",uploading:"Uploading",songLive:"Your song is live! 🎉",listenNow:"Listen now",upAnother:"Upload another song",myDelete:"Delete",manyTitle:"Upload many songs at once (album)",offlineUp:"You are offline. Connect to the internet to upload.",bulkDoneLive:"All songs are live!",tapToPlay:"Tap \u25b6 to keep the music playing"},
 am:{tagline:"የኢትዮጵያ የወንጌል ሙዚቃ",installTitle:"መተግበሪያውን አውርድ",installSub:"Kibirን ወደ መነሻ ማያ ገጽዎ ጨምር",install:"ጫን",iosHint:"ለመጫን: የShare ቁልፉን (አራት ማዕዘኑን ከቀስቱ ጋር) ይንኩ፣ ወደ ታች ያሸብልሉና «ወደ መነሻ ማያ ገጽ ጨምር» ይንኩ፣ ከዚያ «ጨምር» ይንኩ።",menuHint:"ለመጫን: በChrome ላይኛው ቀኝ ጥግ ላይ ያለውን \u22ee ይንኩ፣ ከዚያ «መተግበሪያ ጫን» (ወይም «ወደ መነሻ ማያ ገጽ ጨምር») ይንኩ፣ ከዚያ ያረጋግጡ።",wvHint:"Kibirን በሌላ መተግበሪያ ውስጥ ከፍተዋል፤ ከዚህ መጫን አይቻልም። መጀመሪያ ይህን ገጽ በChrome መተግበሪያ ይክፈቱ፣ ከዚያ «ጫን» ይንኩ።",home:"መነሻ",search:"ፍለጋ",library:"ላይብረሪ",account:"መለያ",nowPlaying:"አሁን እየተጫወተ",
 greetM:"እንደምን አደሩ",greetA:"እንደምን ዋሉ",greetE:"እንደምን አመሹ",
-playlists:"የዘፈን ዝርዝሮች",hymnsTitle:"ዜማዎች",newUploads:"አዳዲስ ዜማዎች",community:"የማኅበረሰብ ስቅሎች",forYou:"ለእርስዎ",allSongs:"ሁሉም ዜማዎች",
+playlists:"የዘፈን ዝርዝሮች",hymnsTitle:"ዜማዎች",newUploads:"አዳዲስ ዜማዎች",top10:"ሳምንታዊ ምርጥ 10",community:"የማኅበረሰብ ስቅሎች",forYou:"ለእርስዎ",allSongs:"ሁሉም ዜማዎች",
 searchPh:"ዜማ ወይም ድምጻዊ ፈልግ...",noResults:"ምንም አልተገኘም።",
 favorites:"ተወዳጆች",noFav:"ገና ምንም ተወዳጅ የለም — በየትኛውም ዜማ ላይ የልብ ምልክቱን ይንኩ።",
 newPlaylist:"አዲስ ዝርዝር",playlistName:"የዝርዝሩ ስም",create:"ፍጠር",cancel:"ተወው",rename:"እንደገና ሰይም",del:"ሰርዝ",
@@ -739,9 +744,14 @@ function getSong(id){
 function sbToSong(r){
   return { id:"sb-"+r.id, sbid:r.id, kind:"remote", source:"supabase",
     title:r.title||"Untitled", artist:r.artist_name||"Unknown", worshiper:r.worshiper||"",
-    coverUrl:r.cover_url||"", lyrics:r.lyrics||"", url:r.audio_url, hue:hueFor(r.title||"x") };
+    coverUrl:r.cover_url||"", lyrics:r.lyrics||"", url:r.audio_url, plays:r.play_count||0, hue:hueFor(r.title||"x") };
 }
 
+/* ================= PLAY COUNTING ================= */
+function countPlay(s){
+  if(!s||s.kind!=="remote"||!s.sbid||!supa) return;
+  try{ supa.rpc("increment_play_count",{p_id:s.sbid}).then(()=>{ s.plays=(s.plays||0)+1; },()=>{}); }catch(e){}
+}
 /* ================= UNIFIED PLAYER ================= */
 const audioEl = new Audio();
 audioEl.preload="auto";
@@ -802,7 +812,7 @@ const Player = {
       preloadNext();
       const tryPlay=()=>{
         let attempts=0;
-        const onOK=()=>{ Player.playing=true; syncPlayerUI(); preloadNext(); };
+        const onOK=()=>{ Player.playing=true; syncPlayerUI(); preloadNext(); countPlay(s); };
         const attempt=()=>{
           attempts++;
           let pr=null;
@@ -977,7 +987,7 @@ function openArtist(name){
   const ah=$("#artistHead");
   ah.innerHTML='<button class="btn ghost small" id="artistBack">\u2039 '+t("back")+'</button>'
     +'<h2 style="margin:12px 0 2px">'+esc(name)+'</h2>'
-    +'<p class="muted" style="margin-bottom:10px">'+list.length+' '+t("songs")+'</p>'
+    +'<p class="muted" style="margin-bottom:10px">'+list.length+' '+t("songs")+' \u00b7 '+list.reduce((a,x)=>a+(x.plays||0),0)+' '+t("plays")+'</p>'
     +(list.length?'<button class="btn small" id="artistPlayAll">\u25B6 '+t("playAll")+'</button>':"");
   const al=$("#artistList"); al.innerHTML="";
   if(!list.length) al.innerHTML='<p class="muted">'+t("noSongs")+'</p>';
@@ -1031,6 +1041,8 @@ function toggleFav(id){
 }
 
 /* ================= UI: HOME ================= */
+/* Kibir Weekly Top 10 — Week 1 (editor picks; later driven by play counts) */
+const TOP10_WEEK1=["494862f4-3ebc-44b7-90d1-95c93b95a008","2974cb7e-92df-4a10-921b-3c840c45e381","6a287b11-63cf-4647-8949-ad92b18f051c","833535d8-e6cd-4222-9f58-591d902a5a38","542acfd4-1106-4d0d-8828-53e0bca16e25","e7bdd1b4-cd4a-4ff1-8d97-ce650665ae2d","8c87f58a-f6fc-4359-973a-cfb6f05b028c","42f49f78-0e98-4730-b5eb-b06da8bd9247","d07548ac-2ee7-4045-8ed8-f8cc653f2dbb","2a1da9f8-631a-49ee-99bc-b39a7517748a"];
 function renderHome(){
   const h=new Date().getHours();
   $("#greet").textContent=(h<12?t("greetM"):h<17?t("greetA"):t("greetE"))+" 👋";
@@ -1046,6 +1058,12 @@ function renderHome(){
     d.addEventListener("click",()=>openFullPlayer(s,nu));
     nr.appendChild(d);
   });
+  // weekly top 10
+  const t10=$("#homeTop10"); if(t10){ t10.innerHTML="";
+    TOP10_WEEK1.forEach((id,i)=>{ const sg=S.sbSongs.find(x=>String(x.sbid)===String(id)); if(!sg) return;
+      const w=document.createElement("div"); w.className="top10row";
+      const rk=document.createElement("span"); rk.className="rank"; rk.textContent=(i+1);
+      w.appendChild(rk); w.appendChild(songRow(sg,S.sbSongs,S.sbSongs.indexOf(sg))); t10.appendChild(w); }); }
   // playlist cards
   const row=$("#homePlRow"); row.innerHTML="";
   const cards=playlists.map(p=>({name:p.name,hue:hueFor(p.name),songs:p.items.map(getSong).filter(Boolean)}));
