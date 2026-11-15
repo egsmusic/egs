@@ -1,12 +1,10 @@
-/* ES service worker. Bump VERSION on every release so phones pick up the new files. */
-const VERSION = "v12";
-const CORE = ["./", "index.html", "manifest.json", "icon-192.png"];
-const SUPABASE_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4";
-
+/* Kibir service worker. Bump VERSION on every release so phones pick up the new files. */
+const VERSION = "v13";
+const CORE = ["./", "index.html", "manifest.json", "icon-192.png", "supabase.min.js"];
 self.addEventListener("install", e => {
   self.skipWaiting();
   e.waitUntil(caches.open(VERSION).then(c =>
-    Promise.all(CORE.map(u => c.add(u).catch(() => {}))).then(() => c.add(SUPABASE_JS).catch(() => {}))
+    Promise.all(CORE.map(u => c.add(u).catch(() => {})))
   ));
 });
 
@@ -39,8 +37,8 @@ self.addEventListener("fetch", e => {
     return;
   }
 
-  // Pinned Supabase library + same-origin static files: cache first
-  if (req.url.startsWith(SUPABASE_JS) || url.origin === location.origin) {
+  // Same-origin static files: cache first
+  if (url.origin === location.origin) {
     e.respondWith(
       caches.match(req).then(hit => hit || fetch(req).then(r => {
         if (r.ok && !r.redirected) { const copy = r.clone(); caches.open(VERSION).then(c => c.put(req, copy)); }

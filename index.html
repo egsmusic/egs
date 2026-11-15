@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kibir — Ethiopian Gospel Music">
 <meta name="twitter:description" content="Ethiopian gospel songs and Protestant mezmur, free to listen.">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4"></script>
+<script src="supabase.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{--bg:linear-gradient(180deg,#0b3d20 0%,#4d3f10 52%,#4d1518 100%);--card:#181818;--card2:#282828;--gold:#2E7CF6;--gold2:#E63946;--txt:#ffffff;--mut:#b3b3b3;--line:#2a2a2a;--green:#1DB954;--red:#e0655f;--blue:#5f9de0}
@@ -183,7 +183,7 @@ body.is-playing #mpPlay{animation:glowPulse 2.4s ease-in-out infinite}
 
 /* ===== Spotify-style theme ===== */
 :root{--bg:#121212;--card:#181818;--card2:#2a2a2a;--gold:#2E7CF6;--gold2:#E63946;--line:#2f2f2f}
-#phone{background:#121212 linear-gradient(180deg,#1d6b43,#121212) no-repeat top/100% 400px}
+#phone{background:#121212 linear-gradient(180deg,#2E7CF6,#121212) no-repeat top/100% 400px}
 svg{fill:currentColor}
 #topbar{padding:calc(16px + env(safe-area-inset-top)) 16px 8px}
 .logo{width:40px;height:40px;border-radius:50%;background:none;padding:0}
@@ -249,7 +249,7 @@ body.is-playing #fpCover{animation:none}
 #fpPlayB svg{width:30px;height:30px}
 #fpRepeat svg,#fpShuf svg,#fpSleep svg{width:24px;height:24px}
 #fpShuf.on,#fpRepeat.on,#fpSleep.on{color:var(--gold2);opacity:1!important}
-#fpLyrics{background:linear-gradient(160deg,#1f8a52,#14563a);border:0;border-radius:14px;padding:18px;font-size:19px;font-weight:700;line-height:1.55;color:#fff}
+#fpLyrics{background:linear-gradient(160deg,#2E7CF6,#1B2A4A);border:0;border-radius:14px;padding:18px;font-size:19px;font-weight:700;line-height:1.55;color:#fff}
 #fpLyrics b{display:block;color:rgba(255,255,255,.7);font-size:13px;margin-bottom:6px}
 .shbtn svg{width:20px;height:20px}
 #offBanner{display:none;position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:70;background:#fff;color:#000;font:700 12px/1.3 system-ui,sans-serif;text-align:center;padding:calc(6px + env(safe-area-inset-top)) 10px 6px}
@@ -408,7 +408,7 @@ function coverStyle(hue){ return "background:linear-gradient(135deg,hsl("+hue+",
 
 /* ================= I18N ================= */
 const STR = {
-en:{tagline:"Ethiopian Gospel Music",installTitle:"Download the app",installSub:"Add Kibir to your home screen",install:"Install",iosHint:"To install: tap the Share button (square with an arrow), scroll down and tap \u201cAdd to Home Screen\u201d, then tap \u201cAdd\u201d.",menuHint:"To install: tap \u22ee at the top-right corner of Chrome, then tap \u201cInstall app\u201d (or \u201cAdd to Home screen\u201d), then confirm.",wvHint:"You opened Kibir inside another app, so Chrome can't install from here. Open this page in the Chrome app first, then tap Install.",home:"Home",search:"Search",library:"Library",account:"Account",nowPlaying:"NOW PLAYING",
+en:{tagline:"Kibir — Ethiopian Gospel Music",installTitle:"Download the app",installSub:"Add Kibir to your home screen",install:"Install",iosHint:"To install: tap the Share button (square with an arrow), scroll down and tap \u201cAdd to Home Screen\u201d, then tap \u201cAdd\u201d.",menuHint:"To install: tap \u22ee at the top-right corner of Chrome, then tap \u201cInstall app\u201d (or \u201cAdd to Home screen\u201d), then confirm.",wvHint:"You opened Kibir inside another app, so Chrome can't install from here. Open this page in the Chrome app first, then tap Install.",home:"Home",search:"Search",library:"Library",account:"Account",nowPlaying:"NOW PLAYING",
 greetM:"Good morning",greetA:"Good afternoon",greetE:"Good evening",
 playlists:"Playlists",hymnsTitle:"Songs",newUploads:"New uploads",top10:"Weekly Top 10",community:"Community uploads",forYou:"For you",allSongs:"All songs",
 searchPh:"Search songs or artists...",noResults:"No results found.",
@@ -440,7 +440,7 @@ errUp:"Couldn't create the account. Try a different email.",
 errUpload:"Upload failed. Please try again.",errPerm:"You don't have permission for that.",
 signedIn:"Welcome!",reportSong:"Report this song",sleepTimer:"Sleep timer",sleepOff:"Turn off timer",sleepEnd:"After this song",sleepMin:"minutes",sleepSet:"Timer set",sleepStopped:"Playback stopped",signedOut:"Signed out.",myAccount:"My account",admin:"Admin",artist:"Artist",songs:"songs",playAll:"Play all",back:"Back",updates:"Updates",noUpdates:"No updates yet.",notifApproved:"was approved and is now live ✓",notifRejected:"was not approved",markAllRead:"Mark all read",makeArtist:"Make artist",artistNote:"Uploads are invite-only. Enter the artist's account email to let them upload songs.",artistGranted:"Artist access granted",
 plays:"plays",errNet:"Connection problem. Try again.",beArtist:"Are you an artist?",beArtistSub:"Only verified artists can upload songs. Apply once — we check your details and approve you.",beArtistSignIn:"Only verified artists can upload songs. Create a free account (or log in) above, then apply here.",aName:"Artist or ministry name",aContact:"Phone or Telegram (so we can verify you)",aLink:"Link to your music (YouTube, Facebook, TikTok…)",aMsg:"Tell us about yourself (optional)",aSend:"Send application",aSent:"Application sent! We will review it soon.",aPending:"Your application is being reviewed. You can upload as soon as it is approved.",aRejected:"Your application was not approved. Check your details and apply again.",aNeed:"Please enter your artist name and a phone or Telegram.",aErr:"Couldn't send your application. Try again later.",appsQ:"Artist applications",noApps:"No applications waiting.",upHeader:"Upload your song",upIntroLive:"3 easy steps. Your song goes live for everyone as soon as you press Publish.",upIntroReview:"3 easy steps. After you press Publish, an admin reviews your song before it goes live.",step1:"Choose your audio file",step2:"Song details",step3:"Cover and lyrics (optional)",pickAudio:"Tap to choose your audio",pickAudioSub:"MP3, M4A, WAV, AAC or OGG — up to 50 MB",pickedAudio:"Audio selected — tap to change",upNotAudio:"That is not an audio file. Choose an MP3, M4A, WAV, AAC or OGG file.",upTooBig:"This file is bigger than 50 MB. Export a smaller MP3 and try again.",upNeedAudio:"Choose an audio file first.",upNeedTitle:"Enter the song title.",upNeedArtist:"Enter the artist name.",upNeedRights:"Tick the box to confirm you have the rights to this music.",rightsChk:"I own this music or have permission to share it. I understand it can be removed if someone reports it.",publish:"Publish song",uploading:"Uploading",songLive:"Your song is live! 🎉",listenNow:"Listen now",upAnother:"Upload another song",myDelete:"Delete",manyTitle:"Upload many songs at once (album)",offlineUp:"You are offline. Connect to the internet to upload.",bulkDoneLive:"All songs are live!",tapToPlay:"Tap \u25b6 to keep the music playing"},
-am:{tagline:"የኢትዮጵያ የወንጌል ሙዚቃ",installTitle:"መተግበሪያውን አውርድ",installSub:"Kibirን ወደ መነሻ ማያ ገጽዎ ጨምር",install:"ጫን",iosHint:"ለመጫን: የShare ቁልፉን (አራት ማዕዘኑን ከቀስቱ ጋር) ይንኩ፣ ወደ ታች ያሸብልሉና «ወደ መነሻ ማያ ገጽ ጨምር» ይንኩ፣ ከዚያ «ጨምር» ይንኩ።",menuHint:"ለመጫን: በChrome ላይኛው ቀኝ ጥግ ላይ ያለውን \u22ee ይንኩ፣ ከዚያ «መተግበሪያ ጫን» (ወይም «ወደ መነሻ ማያ ገጽ ጨምር») ይንኩ፣ ከዚያ ያረጋግጡ።",wvHint:"Kibirን በሌላ መተግበሪያ ውስጥ ከፍተዋል፤ ከዚህ መጫን አይቻልም። መጀመሪያ ይህን ገጽ በChrome መተግበሪያ ይክፈቱ፣ ከዚያ «ጫን» ይንኩ።",home:"መነሻ",search:"ፍለጋ",library:"ላይብረሪ",account:"መለያ",nowPlaying:"አሁን እየተጫወተ",
+am:{tagline:"ኪብር — የኢትዮጵያ የወንጌል ሙዚቃ",installTitle:"መተግበሪያውን አውርድ",installSub:"Kibirን ወደ መነሻ ማያ ገጽዎ ጨምር",install:"ጫን",iosHint:"ለመጫን: የShare ቁልፉን (አራት ማዕዘኑን ከቀስቱ ጋር) ይንኩ፣ ወደ ታች ያሸብልሉና «ወደ መነሻ ማያ ገጽ ጨምር» ይንኩ፣ ከዚያ «ጨምር» ይንኩ።",menuHint:"ለመጫን: በChrome ላይኛው ቀኝ ጥግ ላይ ያለውን \u22ee ይንኩ፣ ከዚያ «መተግበሪያ ጫን» (ወይም «ወደ መነሻ ማያ ገጽ ጨምር») ይንኩ፣ ከዚያ ያረጋግጡ።",wvHint:"Kibirን በሌላ መተግበሪያ ውስጥ ከፍተዋል፤ ከዚህ መጫን አይቻልም። መጀመሪያ ይህን ገጽ በChrome መተግበሪያ ይክፈቱ፣ ከዚያ «ጫን» ይንኩ።",home:"መነሻ",search:"ፍለጋ",library:"ላይብረሪ",account:"መለያ",nowPlaying:"አሁን እየተጫወተ",
 greetM:"እንደምን አደሩ",greetA:"እንደምን ዋሉ",greetE:"እንደምን አመሹ",
 playlists:"የዘፈን ዝርዝሮች",hymnsTitle:"ዜማዎች",newUploads:"አዳዲስ ዜማዎች",top10:"ሳምንታዊ ምርጥ 10",community:"የማኅበረሰብ ስቅሎች",forYou:"ለእርስዎ",allSongs:"ሁሉም ዜማዎች",
 searchPh:"ዜማ ወይም ድምጻዊ ፈልግ...",noResults:"ምንም አልተገኘም።",
