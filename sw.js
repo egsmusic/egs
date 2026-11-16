@@ -1,5 +1,5 @@
 /* Kibir service worker. Bump VERSION on every release so phones pick up the new files. */
-const VERSION = "v19";
+const VERSION = "v20";
 const CORE = ["./", "index.html", "manifest.json", "icon-192.png", "icon-512.png", "supabase.min.js"];
 self.addEventListener("install", e => {
   self.skipWaiting();

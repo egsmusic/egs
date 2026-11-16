@@ -433,7 +433,7 @@ myUploads:"My uploads",stPending:"Pending",stApproved:"Approved",stRejected:"Rej
 reviewQ:"Review uploads",approve:"Approve",reject:"Reject",noPending:"No songs waiting for review.",approvedMsg:"Song approved",rejectedMsg:"Song rejected",manageSongs:"Manage songs",delete:"Delete",confirmDelete:"Delete this song permanently?",deletedMsg:"Song deleted ✓",noSongs:"No songs yet.",
 songSubmitted:"Song submitted! It will appear after approval.",
 support:"Support Kibir",telebirr:"Telebirr",cbe:"CBE bank account",copy:"Copy",copied:"Copied!",
-tbSteps:"1. Open your telebirr app.\n2. Send to 0902070153 (the owner).\n3. Open Telegram and send the payment screenshot to @egs_music_bot.",
+tbSteps:"1. Open your telebirr app.\n2. Send to 0902070153 (Dawit).\n3. Open Telegram and send the payment screenshot to @egs_music_bot.",
 cbeNote:"Send to this account, then open Telegram and send the screenshot to @egs_music_bot.",
 premium:"Kibir Premium",perMonth:"99 birr / month",perYear:"990 birr / year",
 premNote:"Free downloads: up to 10 songs. Premium unlocks unlimited downloads and no ads. Pay with telebirr or CBE above, then send the screenshot to our Telegram bot <a href=\"https://t.me/egs_music_bot\" target=\"_blank\" style=\"color:var(--gold);font-weight:700\">@egs_music_bot</a> — it will guide you, and premium activates once approved.",
@@ -465,7 +465,7 @@ myUploads:"የእኔ ስቅሎች",stPending:"በጥበቃ ላይ",stApproved:"�
 reviewQ:"ስቅሎችን ይመርምሩ",approve:"አጽድቅ",reject:"ውድቅ አድርግ",noPending:"ለግምገማ የሚጠብቅ ዜማ የለም።",approvedMsg:"ዜማው ተቀብሏል",rejectedMsg:"ዜማው ውድቅ ተደርጓል",manageSongs:"ዜማዎች አስተዳደር",delete:"ሰርዝ",confirmDelete:"ይህን ዜማ ሙሉ በሙሉ ሰርዝ?",deletedMsg:"ዜማው ተሰርዟል ✓",noSongs:"ምንም ዜማ የለም።",
 songSubmitted:"ዜማው ተልኳል! ከተቀበለ በኋላ ይታያል።",
 support:"Kibirን ይደግፉ",telebirr:"ቴሌብር",cbe:"የCBE የባንክ ሂሳብ",copy:"ቅዳ",copied:"ተቀድቷል!",
-tbSteps:"1. የቴሌብር መተግበሪያዎን ይክፈቱ።\n2. ወደ 0902070153 (ባለቤቱ) ይላኩ።\n3. ቴሌግራምን ይክፈቱ እና የክፍያ ስክሪንሾት ወደ @egs_music_bot ይላኩ።",
+tbSteps:"1. የቴሌብር መተግበሪያዎን ይክፈቱ።\n2. ወደ 0902070153 (ዳዊት) ይላኩ።\n3. ቴሌግራምን ይክፈቱ እና የክፍያ ስክሪንሾት ወደ @egs_music_bot ይላኩ።",
 cbeNote:"ወደዚህ ሂሳብ ይላኩ፣ ከዚያ ቴሌግራምን ይክፈቱ እና ስክሪንሾቱን ወደ @egs_music_bot ይላኩ።",
 premium:"Kibir ፕሪሚየም",perMonth:"99 ብር / በወር",perYear:"990 ብር / በዓመት",
 premNote:"ነጻ ማውረድ፡ እስከ 10 ዜማዎች። ፕሪሚየም ያልተገደበ ማውረድ እና ያለ ማስታወቂያ ይከፍታል። በቴሌብር ወይም CBE ከላይ ይክፈሉ፣ ከዚያ ስክሪንሾቱን ወደ ቴሌግራም ቦታችን <a href=\"https://t.me/egs_music_bot\" target=\"_blank\" style=\"color:var(--gold);font-weight:700\">@egs_music_bot</a> ይላኩ — በእርምጃዎቹ ይመራዎታል፣ ፕሪሚየምም እንደጸደቀ ይገብራል።",
@@ -2027,11 +2027,11 @@ function renderPremBox(){
     html+='<div class="plan"><b>'+t("perMonth")+'</b></div>'
       +'<div class="plan"><b>'+t("perYear")+'</b></div>'
       +'<div class="hr"></div>'
-      +'<p class="note"><b class="gold">'+t("telebirr")+'</b> — the owner</p>'
+      +'<p class="note"><b class="gold">'+t("telebirr")+'</b> — Dawit</p>'
       +'<div class="copyrow"><b>0902070153</b><button id="cpTbP">'+t("copy")+'</button></div>'
       +'<div class="steps">'+escBot(t("tbSteps"))+'</div>'
       +'<div class="hr"></div>'
-      +'<p class="note"><b class="gold">'+t("cbe")+'</b> — the owner</p>'
+      +'<p class="note"><b class="gold">'+t("cbe")+'</b> — Dawit</p>'
       +'<div class="copyrow"><b>1000796194654</b><button id="cpCbeP">'+t("copy")+'</button></div>'
       +'<p class="note">'+escBot(t("cbeNote"))+'</p>'
       +'<div class="hr"></div>'
