@@ -90,7 +90,8 @@ input,select,textarea{font-family:inherit}
 #fpTop{display:flex;justify-content:space-between;align-items:center;padding:4px 0 10px}
 #fpTop button{background:none;border:0;color:var(--txt);font-size:22px}
 #fpTop span{font-size:12px;color:var(--mut);letter-spacing:2px}
-#fpCover{width:min(300px,72vw);aspect-ratio:1;border-radius:18px;margin:8px auto 16px;display:flex;align-items:center;justify-content:center;font-size:64px;font-weight:800;color:#fff9;position:relative;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+#fpCover{width:min(300px,72vw);aspect-ratio:1;border-radius:18px;margin:8px auto 16px;display:flex;align-items:center;justify-content:center;font-size:64px;font-weight:800;color:#fff9;position:relative;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.5);flex:none}
+#fpCover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 #fpCover::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent 0 14px,rgba(255,255,255,.06) 14px 17px)}
 #fpTitle{font-size:21px;font-weight:800;text-align:center}
 #fpArtist{font-size:14px;color:var(--mut);text-align:center;margin:4px 0 12px}
@@ -367,7 +368,7 @@ details.more>summary{cursor:pointer;font-weight:700;font-size:14px;padding:4px 0
 
   <div id="fp" hidden>
     <div id="fpTop"><button id="fpClose"><svg viewBox="0 0 24 24" aria-hidden="true" ><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span data-i18n="nowPlaying">NOW PLAYING</span><button id="fpMore"><svg viewBox="0 0 24 24" aria-hidden="true" ><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button></div>
-    <div id="fpCover">♪</div>
+    <div id="fpCover"><span id="fpCoverLetter">♪</span><img id="fpCoverImg" alt=""></div>
     <div id="fpTitle"></div>
     <div id="fpArtist"></div>
     <input type="range" id="fpSeek" min="0" max="1000" value="0">
@@ -942,12 +943,12 @@ function syncPlayerUI(){
   if(!fp.hidden){
     const fc=$("#fpCover"), grad=coverStyle(s.hue||hueFor(s.title)), letter=s.title.charAt(0).toUpperCase();
     /* always show a big cover: the photo if it loads, otherwise a coloured tile with the first letter */
-    fc.style.cssText=grad; fc.textContent=letter;
-    if(s.coverUrl){
-      const im=new Image(); const sid=s.id;
-      im.onload=()=>{ const c=Player.song(); if(c&&c.id===sid){ fc.style.cssText="background-image:url('"+cssUrl(s.coverUrl)+"');background-size:cover;background-position:center"; fc.textContent=""; } };
-      im.src=s.coverUrl;
-    }
+    fc.style.cssText=grad; $("#fpCoverLetter").textContent=letter;
+    const fci=$("#fpCoverImg");
+    fci.onerror=()=>{ fci.style.display="none"; };
+    fci.onload=()=>{ fci.style.display=""; };
+    if(s.coverUrl){ fci.style.display=""; fci.src=s.coverUrl; }
+    else { fci.style.display="none"; fci.removeAttribute("src"); }
     $("#fpTitle").textContent=s.title; $("#fpArtist").textContent=s.worshiper?(s.worshiper):s.artist;
     $("#fpLyrics").innerHTML = s.lyrics ? "<b>"+esc(t("lyrics"))+"</b>\n"+esc(s.lyrics) : esc(t("noLyrics"));
     $("#fpPlayB").innerHTML=Player.playing?IC.pause:IC.play;
