@@ -68,6 +68,7 @@ input,select,textarea{font-family:inherit}
 .icobtn{background:none;border:0;color:var(--mut);font-size:19px;padding:8px;border-radius:10px}
 .icobtn:active{background:var(--card2)}
 .icobtn.fav{color:var(--gold)}
+.icobtn.dld{color:var(--green)}
 .pill{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:700}
 .pill.p{background:#2a2a2a;color:var(--gold2)}
 .pill.a{background:#1B2A4A;color:#93C5FD}
@@ -441,7 +442,7 @@ privacy:"Privacy",help:"Help",report:"Report a problem",language:"Language",
 privacyTxt:"Kibir keeps your favorites, playlists and settings only on your device. If you create an account, your email and uploaded songs are stored securely on our servers and never shared with anyone.",
 helpTxt:"Browse hymns on Home, search for songs, tap the heart to save favorites, and build your own playlists. Downloads let you listen offline. Sign in to upload your own gospel songs — every upload is reviewed before it appears for everyone.",
 localAudio:"Play from my device",localNote:"Files play this session only.",chooseFiles:"Choose audio files",
-download:"Download",downloads:"Downloads",noDownloads:"No downloads yet — tap ⬇ on a song to save it.",dlRemoved:"Download removed",dlDone:"Saved for offline listening!",dlLimit:"Free download limit reached (10). Go premium for more.",dlSignIn:"Sign in to download songs.",
+download:"Download",downloaded:"Downloaded ✓",alreadyDl:"Already downloaded ✓",downloads:"Downloads",noDownloads:"No downloads yet — tap ⬇ on a song to save it.",dlRemoved:"Download removed",dlDone:"Saved for offline listening!",dlLimit:"Free download limit reached (10). Go premium for more.",dlSignIn:"Sign in to download songs.",
 lyrics:"Lyrics",noLyrics:"No lyrics provided.",
 loading:"Loading...",serverDown:"Server unavailable — showing built-in hymns only.",
 errAuth:"Couldn't sign you in. Check your details and try again.",
@@ -473,7 +474,7 @@ privacy:"ግላዊነት",help:"እርዳታ",report:"ችግር ሪፖርት አ
 privacyTxt:"Kibir ተወዳጆችዎን፣ ዝርዝሮችዎን እና ቅንብሮችዎን በመሣሪያዎ ላይ ብቻ ያስቀምጣል። መለያ ከፈጠሩ፣ ኢሜይልዎ እና የሰቀሏቸው ዜማዎች በሰርቨሮቻችን ላይ በደህንነት ይቀመጣሉ እና ለማንም አይጋሩም።",
 helpTxt:"በመነሻ ገጽ መዝሙራትን ያዳምጡ፣ ዜማዎችን ይፈልጉ፣ ልብ ምልክቱን በመንካት ተወዳጆችን ይቆጥቡ፣ እና የራስዎን ዝርዝሮች ይፍጠሩ። ማውረዶች ያለ ኢንተርኔት እንዲያዳምጡ ያስችሉዎታል። የራስዎን የወንጌል ዜማዎች ለመስቀል ይግቡ — እያንዳንዱ ስቀል ለሁሉም ከመታየቱ በፊት ይመረመራል።",
 localAudio:"ከመሣሪያዬ አጫውት",localNote:"ፋይሎች በዚህ ክፍለ ጊዜ ብቻ ይጫወታሉ።",chooseFiles:"የድምጽ ፋይሎች ምረጥ",
-download:"አውርድ",downloads:"ውርዶች",noDownloads:"ምንም ውርድ የለም — ⬇ ንካ ዜማ አስቀምጥ።",dlRemoved:"ውርዱ ተሰርዟል",dlDone:"ለኦፍላይን ማዳመጥ ተቀምጧል!",dlLimit:"የነጻ ማውረድ ገደብ (10) ደርሷል። ለተጨማሪ ፕሪሚየም ይሁኑ።",dlSignIn:"ዜማዎችን ለማውረድ ይግቡ።",
+download:"አውርድ",downloaded:"ወርዷል ✓",alreadyDl:"አስቀድሞ ወርዷል ✓",downloads:"ውርዶች",noDownloads:"ምንም ውርድ የለም — ⬇ ንካ ዜማ አስቀምጥ።",dlRemoved:"ውርዱ ተሰርዟል",dlDone:"ለኦፍላይን ማዳመጥ ተቀምጧል!",dlLimit:"የነጻ ማውረድ ገደብ (10) ደርሷል። ለተጨማሪ ፕሪሚየም ይሁኑ።",dlSignIn:"ዜማዎችን ለማውረድ ይግቡ።",
 lyrics:"ግጥም",noLyrics:"ግጥም አልተሰጠም።",
 loading:"እየተጫነ...",serverDown:"ሰርቨሩ አይገኝም — የመዝሙር ስብስብ ብቻ ይታያል።",
 errAuth:"መግባት አልተቻለም። መረጃዎን ይመርምሩ እንደገና ይሞክሩ።",
@@ -952,6 +953,8 @@ function syncPlayerUI(){
     $("#fpPlayB").innerHTML=Player.playing?IC.pause:IC.play;
     $("#fpFav").innerHTML=heart(favs.includes(s.id));
     $("#fpFav").classList.toggle("fav", favs.includes(s.id));
+    const fdl=$("#fpDl"), isDl=!!S.offSongs[s.id];
+    fdl.innerHTML=isDl?"✓":IC.dl; fdl.style.color=isDl?"var(--green)":"";
   }
 }
 /* ================= MEDIA SESSION (lock screen / headphone controls) ================= */
@@ -1033,7 +1036,7 @@ function songRow(s, queue, idx){
   b.innerHTML='<div class="cover" style="'+(s.coverUrl?'background-image:url(\''+esc(cssUrl(s.coverUrl))+'\');background-size:cover;background-position:center':coverStyle(s.hue||hueFor(s.title)))+'">'+(s.coverUrl?'':esc(s.title.charAt(0).toUpperCase()))+'</div>'
     +'<div class="mi"><b>'+esc(s.title)+(locked?' 🔒':'')+'</b><span data-act="artist" style="text-decoration:underline dotted;text-underline-offset:3px">'+(s.worshiper?esc(s.worshiper):esc(s.artist))+'</span></div>'
     +'<span class="icobtn '+(favs.includes(s.id)?"fav":"")+'" data-act="fav">'+heart(favs.includes(s.id))+'</span>'
-    +'<span class="icobtn" data-act="dl">'+IC.dl+'</span>'
+    +'<span class="icobtn'+(S.offSongs[s.id]?' dld':'')+'" data-act="dl">'+(S.offSongs[s.id]?'✓':IC.dl)+'</span>'
     +'<span class="icobtn" data-act="more">'+IC.more+'</span>';
   b.addEventListener("click",e=>{
     const act=e.target.closest("[data-act]")?.dataset.act;
@@ -1203,7 +1206,8 @@ function openSheet(s){
   fav.innerHTML='<span style="font-size:18px">'+heart(favs.includes(s.id))+'</span><span>'+t("favorites")+'</span>';
   fav.addEventListener("click",()=>{ toggleFav(s.id); closeSheet(); syncPlayerUI(); renderSearchList($("#searchInput").value); });
   const dl=document.createElement("button"); dl.className="shbtn";
-  dl.innerHTML='<span style="font-size:18px">⬇</span><span>'+t("download")+'</span>';
+  const isDl=!!S.offSongs[s.id];
+  dl.innerHTML=isDl?'<span style="font-size:18px;color:var(--green)">✓</span><span style="color:var(--green)">'+t("downloaded")+'</span>':'<span style="font-size:18px">⬇</span><span>'+t("download")+'</span>';
   dl.addEventListener("click",()=>{ closeSheet(); downloadSong(s); });
   const rp=document.createElement("button"); rp.className="shbtn";
   rp.innerHTML='<span style="font-size:18px">⚑</span><span>'+t("reportSong")+'</span>';
@@ -1301,6 +1305,7 @@ function safeName(s){ return (s||"song").replace(/[^\w\-. ]+/g,"").trim().slice(
 async function downloadSong(s){
   if(!S.user){ toast(t("dlSignIn")); switchTab("account"); return; }
   if(s.kind==="local"){ toast(t("dlDone")); return; }
+  if(S.offSongs[s.id]){ toast(t("alreadyDl")); return; }
   if(!isPremium && dlCount>=10 && !(serverDl&&serverDl.has(s.id))){ toast(t("dlLimit")); switchTab("account"); return; }
   toast("⏳");
   let reserved=false;
