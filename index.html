@@ -287,6 +287,14 @@ body.is-playing #fpCover{animation:none}
 .okcard .note{margin-bottom:6px}
 details.more>summary{cursor:pointer;font-weight:700;font-size:14px;padding:4px 0}
 .pill.a{background:#1B2A4A;color:#93C5FD}
+#tgPop{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.72);padding:20px}
+#tgPop .tgCard{position:relative;width:100%;max-width:340px;background:#181818;border:1px solid rgba(255,255,255,.14);border-radius:20px;overflow:hidden;text-align:center;padding:0 0 18px}
+#tgPop .tgCard img{display:block;width:100%;height:auto}
+#tgPop .tgCard b{display:block;font-size:19px;margin:14px 16px 6px}
+#tgPop .tgCard p{font-size:14px;line-height:1.55;color:var(--mut);margin:0 18px 14px}
+#tgPopJoin{display:inline-block;background:#2E7CF6;color:#fff;font-weight:800;font-size:15px;text-decoration:none;padding:12px 26px;border-radius:999px}
+#tgPopLater{display:block;background:none;border:0;color:var(--mut);font-size:13px;margin:12px auto 0;cursor:pointer}
+#tgPopX{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:15px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -441,7 +449,7 @@ errAuth:"Couldn't sign you in. Check your details and try again.",
 errUp:"Couldn't create the account. Try a different email.",
 errUpload:"Upload failed. Please try again.",errPerm:"You don't have permission for that.",
 signedIn:"Welcome!",reportSong:"Report this song",sleepTimer:"Sleep timer",sleepOff:"Turn off timer",sleepEnd:"After this song",sleepMin:"minutes",sleepSet:"Timer set",sleepStopped:"Playback stopped",signedOut:"Signed out.",myAccount:"My account",admin:"Admin",artist:"Artist",artists:"Artists",songs:"songs",playAll:"Play all",back:"Back",updates:"Updates",noUpdates:"No updates yet.",notifApproved:"was approved and is now live ✓",notifRejected:"was not approved",markAllRead:"Mark all read",makeArtist:"Make artist",artistNote:"Uploads are invite-only. Enter the artist's account email to let them upload songs.",artistGranted:"Artist access granted",
-plays:"plays",monthlyListeners:"monthly listeners",errNet:"Connection problem. Try again.",beArtist:"Are you an artist?",beArtistSub:"Only verified artists can upload songs. Apply once — we check your details and approve you.",beArtistSignIn:"Only verified artists can upload songs. Create a free account (or log in) above, then apply here.",aName:"Artist or ministry name",aContact:"Phone or Telegram (so we can verify you)",aLink:"Link to your music (YouTube, Facebook, TikTok…)",aMsg:"Tell us about yourself (optional)",aSend:"Send application",aSent:"Application sent! We will review it soon.",aPending:"Your application is being reviewed. You can upload as soon as it is approved.",aRejected:"Your application was not approved. Check your details and apply again.",aNeed:"Please enter your artist name and a phone or Telegram.",aErr:"Couldn't send your application. Try again later.",appsQ:"Artist applications",noApps:"No applications waiting.",upHeader:"Upload your song",upIntroLive:"3 easy steps. Your song goes live for everyone as soon as you press Publish.",upIntroReview:"3 easy steps. After you press Publish, an admin reviews your song before it goes live.",step1:"Choose your audio file",step2:"Song details",step3:"Cover and lyrics (optional)",pickAudio:"Tap to choose your audio",pickAudioSub:"MP3, M4A, WAV, AAC or OGG — up to 50 MB",pickedAudio:"Audio selected — tap to change",upNotAudio:"That is not an audio file. Choose an MP3, M4A, WAV, AAC or OGG file.",upTooBig:"This file is bigger than 50 MB. Export a smaller MP3 and try again.",upNeedAudio:"Choose an audio file first.",upNeedTitle:"Enter the song title.",upNeedArtist:"Enter the artist name.",upNeedRights:"Tick the box to confirm you have the rights to this music.",rightsChk:"I own this music or have permission to share it. I understand it can be removed if someone reports it.",publish:"Publish song",uploading:"Uploading",songLive:"Your song is live! 🎉",listenNow:"Listen now",upAnother:"Upload another song",myDelete:"Delete",manyTitle:"Upload many songs at once (album)",offlineUp:"You are offline. Connect to the internet to upload.",bulkDoneLive:"All songs are live!",tapToPlay:"Tap \u25b6 to keep the music playing"},
+plays:"plays",monthlyListeners:"monthly listeners",errNet:"Connection problem. Try again.",beArtist:"Are you an artist?",beArtistSub:"Only verified artists can upload songs. Apply once — we check your details and approve you.",beArtistSignIn:"Only verified artists can upload songs. Create a free account (or log in) above, then apply here.",aName:"Artist or ministry name",aContact:"Phone or Telegram (so we can verify you)",aLink:"Link to your music (YouTube, Facebook, TikTok…)",aMsg:"Tell us about yourself (optional)",aSend:"Send application",aSent:"Application sent! We will review it soon.",aPending:"Your application is being reviewed. You can upload as soon as it is approved.",aRejected:"Your application was not approved. Check your details and apply again.",aNeed:"Please enter your artist name and a phone or Telegram.",aErr:"Couldn't send your application. Try again later.",appsQ:"Artist applications",noApps:"No applications waiting.",upHeader:"Upload your song",upIntroLive:"3 easy steps. Your song goes live for everyone as soon as you press Publish.",upIntroReview:"3 easy steps. After you press Publish, an admin reviews your song before it goes live.",step1:"Choose your audio file",step2:"Song details",step3:"Cover and lyrics (optional)",pickAudio:"Tap to choose your audio",pickAudioSub:"MP3, M4A, WAV, AAC or OGG — up to 50 MB",pickedAudio:"Audio selected — tap to change",upNotAudio:"That is not an audio file. Choose an MP3, M4A, WAV, AAC or OGG file.",upTooBig:"This file is bigger than 50 MB. Export a smaller MP3 and try again.",upNeedAudio:"Choose an audio file first.",upNeedTitle:"Enter the song title.",upNeedArtist:"Enter the artist name.",upNeedRights:"Tick the box to confirm you have the rights to this music.",rightsChk:"I own this music or have permission to share it. I understand it can be removed if someone reports it.",publish:"Publish song",uploading:"Uploading",songLive:"Your song is live! 🎉",listenNow:"Listen now",upAnother:"Upload another song",myDelete:"Delete",manyTitle:"Upload many songs at once (album)",offlineUp:"You are offline. Connect to the internet to upload.",bulkDoneLive:"All songs are live!",tapToPlay:"Tap \u25b6 to keep the music playing",tgTitle:"Join our Telegram",tgText:"New songs, updates and announcements first — join our Telegram channel.",tgJoin:"Join Telegram",tgLater:"Not now"},
 am:{tagline:"ኪብር — የኢትዮጵያ የወንጌል ሙዚቃ",installTitle:"መተግበሪያውን አውርድ",installSub:"Kibirን ወደ መነሻ ማያ ገጽዎ ጨምር",install:"ጫን",iosHint:"ለመጫን: የShare ቁልፉን (አራት ማዕዘኑን ከቀስቱ ጋር) ይንኩ፣ ወደ ታች ያሸብልሉና «ወደ መነሻ ማያ ገጽ ጨምር» ይንኩ፣ ከዚያ «ጨምር» ይንኩ።",menuHint:"ለመጫን: በChrome ላይኛው ቀኝ ጥግ ላይ ያለውን \u22ee ይንኩ፣ ከዚያ «መተግበሪያ ጫን» (ወይም «ወደ መነሻ ማያ ገጽ ጨምር») ይንኩ፣ ከዚያ ያረጋግጡ።",wvHint:"Kibirን በሌላ መተግበሪያ ውስጥ ከፍተዋል፤ ከዚህ መጫን አይቻልም። መጀመሪያ ይህን ገጽ በChrome መተግበሪያ ይክፈቱ፣ ከዚያ «ጫን» ይንኩ።",home:"መነሻ",search:"ፍለጋ",library:"ላይብረሪ",account:"መለያ",nowPlaying:"አሁን እየተጫወተ",
 greetM:"እንደምን አደሩ",greetA:"እንደምን ዋሉ",greetE:"እንደምን አመሹ",
 playlists:"የዘፈን ዝርዝሮች",hymnsTitle:"ዜማዎች",newUploads:"አዳዲስ ዜማዎች",top10:"ሳምንታዊ ምርጥ 10",community:"የማኅበረሰብ ስቅሎች",forYou:"ለእርስዎ",allSongs:"ሁሉም ዜማዎች",
@@ -473,7 +481,7 @@ errAuth:"መግባት አልተቻለም። መረጃዎን ይመርምሩ እ�
 errUp:"መለያ መፍጠር አልተቻለም። ሌላ ኢሜይል ይሞክሩ።",
 errUpload:"ስቀሉ አልተሳካም። እንደገና ይሞክሩ።",errPerm:"ለዚህ ፈቃድ የለዎትም።",
 signedIn:"እንኳን ደህና መጡ!",reportSong:"ዜማውን ሪፖርት አድርግ",sleepTimer:"የእንቅልፍ ቆጣሪ",sleepOff:"ቆጣሪውን አጥፋ",sleepEnd:"ከዚህ ዜማ በኋላ",sleepMin:"ደቂቃ",sleepSet:"ቆጣሪ ተቀምጧል",sleepStopped:"ማጫወት ቆሟል",signedOut:"ወጥተዋል።",myAccount:"የእኔ መለያ",admin:"አድሚን",artist:"አርቲስት",artists:"አርቲስቶች",songs:"ዜማዎች",playAll:"ሁሉንም አጫውት",back:"ተመለስ",updates:"ማሳወቂያዎች",noUpdates:"ገና ምንም ማሳወቂያ የለም።",notifApproved:"ተቀብሎ አሁን ታትሟል ✓",notifRejected:"አልተቀበለም",markAllRead:"ሁሉንም እንደተነበበ ምልክት አድርግ",makeArtist:"አርቲስት አድርግ",artistNote:"ስቀላቶች በእርዳታ ብቻ ናቸው። አርቲስቱ እንዲሰቅል የኢሜይል አድራሻውን ከዚህ በታች ያስገቡ።",artistGranted:"የአርቲስት ፈቃድ ተሰጥቷል",
-plays:"ማጫወቻ",monthlyListeners:"ወርሃዊ አድማጮች",errNet:"የግንኙነት ችግር። እንደገና ይሞክሩ።",beArtist:"አርቲስት ነዎት?",aName:"የአርቲስት ወይም የአገልግሎት ስም",aSend:"ማመልከቻ ላክ",aPending:"ማመልከቻዎ እየተመረመረ ነው። እንደጸደቀ መስቀል ይችላሉ።",appsQ:"የአርቲስት ማመልከቻዎች",noApps:"የሚጠብቅ ማመልከቻ የለም።",upHeader:"ዜማዎን ይስቀሉ",step1:"የድምጽ ፋይልዎን ይምረጡ",step2:"የዜማው ዝርዝር",step3:"ሽፋን እና ግጥም (አማራጭ)",pickAudio:"የድምጽ ፋይል ለመምረጥ ይንኩ",publish:"ዜማውን አውጣ",uploading:"በመስቀል ላይ",songLive:"ዜማዎ ታትሟል! 🎉",upAnother:"ሌላ ዜማ ይስቀሉ",myDelete:"ሰርዝ",tapToPlay:"ሙዚቃው እንዲቀጥል \u25b6 ይንኩ"}
+plays:"ማጫወቻ",monthlyListeners:"ወርሃዊ አድማጮች",errNet:"የግንኙነት ችግር። እንደገና ይሞክሩ።",beArtist:"አርቲስት ነዎት?",aName:"የአርቲስት ወይም የአገልግሎት ስም",aSend:"ማመልከቻ ላክ",aPending:"ማመልከቻዎ እየተመረመረ ነው። እንደጸደቀ መስቀል ይችላሉ።",appsQ:"የአርቲስት ማመልከቻዎች",noApps:"የሚጠብቅ ማመልከቻ የለም።",upHeader:"ዜማዎን ይስቀሉ",step1:"የድምጽ ፋይልዎን ይምረጡ",step2:"የዜማው ዝርዝር",step3:"ሽፋን እና ግጥም (አማራጭ)",pickAudio:"የድምጽ ፋይል ለመምረጥ ይንኩ",publish:"ዜማውን አውጣ",uploading:"በመስቀል ላይ",songLive:"ዜማዎ ታትሟል! 🎉",upAnother:"ሌላ ዜማ ይስቀሉ",myDelete:"ሰርዝ",tapToPlay:"ሙዚቃው እንዲቀጥል \u25b6 ይንኩ",tgTitle:"ቴሌግራም ቻናላችንን ይቀላቀሉ",tgText:"አዳዲስ ዜማዎች፣ ዝማኔዎች እና ማስታወቂያዎች መጀመሪያ ይደርስዎታል — የቴሌግራም ቻናላችንን ይቀላቀሉ።",tgJoin:"ቴሌግራም ይቀላቀሉ",tgLater:"አሁን አይደለም"}
 };
 let lang = localStorage.getItem("egs_lang") || "en";
 const t = k => (STR[lang] && STR[lang][k]) || STR.en[k] || k;
@@ -2110,8 +2118,17 @@ function installRow(){
 }
 window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferredPrompt=e; installRow(); const h=$("#installHint"); if(h) h.style.display="none"; });
 window.addEventListener("appinstalled",()=>{ deferredPrompt=null; try{ localStorage.setItem("egs_install_x",String(Date.now()+365*864e5)); }catch(e){} installRow(); });
+function showTgPop(){
+  const p=$("#tgPop"); if(!p) return;
+  p.style.display="flex";
+  const close=()=>{ p.style.display="none"; };
+  $("#tgPopX").addEventListener("click",close);
+  $("#tgPopLater").addEventListener("click",close);
+  p.addEventListener("click",(e)=>{ if(e.target===p) close(); });
+}
 document.addEventListener("DOMContentLoaded",()=>{
   installRow();
+  setTimeout(showTgPop,700);
   $("#installX").addEventListener("click",()=>{ try{ localStorage.setItem("egs_install_x",String(Date.now())); }catch(e){} installRow(); });
   $("#installBtn").addEventListener("click",async()=>{
     if(deferredPrompt){ deferredPrompt.prompt(); try{ await deferredPrompt.userChoice; }catch(e){} deferredPrompt=null; installRow(); return; }
@@ -2142,5 +2159,15 @@ window.addEventListener("online",()=>{ netUI(); try{ loadApproved(); if(supa&&S.
 netUI();
 if("serviceWorker" in navigator && /^https?:/.test(location.protocol)){ window.addEventListener("load",()=>{ navigator.serviceWorker.register("sw.js").catch(()=>{}); }); }
 </script>
+<div id="tgPop" style="display:none">
+  <div class="tgCard">
+    <button id="tgPopX" type="button" aria-label="Close">✕</button>
+    <img src="join-telegram.jpg" alt="Join our Telegram">
+    <b data-i18n="tgTitle">Join our Telegram</b>
+    <p data-i18n="tgText">New songs, updates and announcements first — join our Telegram channel.</p>
+    <a id="tgPopJoin" href="https://t.me/egs_music" target="_blank" rel="noopener" data-i18n="tgJoin">Join Telegram</a>
+    <button id="tgPopLater" type="button" data-i18n="tgLater">Not now</button>
+  </div>
+</div>
 </body>
 </html>
