@@ -1,6 +1,6 @@
 /* Kibir service worker. Bump VERSION on every release so phones pick up the new files. */
-const VERSION = "v16";
-const CORE = ["./", "index.html", "manifest.json", "icon-192.png", "icon-512.png", "join-telegram.jpg", "supabase.min.js"];
+const VERSION = "v17";
+const CORE = ["./", "index.html", "manifest.json", "icon-192.png", "icon-512.png", "supabase.min.js"];
 self.addEventListener("install", e => {
   self.skipWaiting();
   e.waitUntil(caches.open(VERSION).then(c =>
