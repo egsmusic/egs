@@ -261,7 +261,7 @@ body.is-playing #fpCover{animation:none}
 .instIco svg{width:22px;height:22px}
 .instTx{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
 .instTx b{font-size:15px}.instTx span{font-size:12px;opacity:.8}
-#installBtn{background:#000;color:#fff;border:0;border-radius:500px;font-family:inherit;font-weight:700;font-size:13px;padding:9px 16px;cursor:pointer;flex:none}
+#installBtn,#acctInstallBtn{background:#000;color:#fff;border:0;border-radius:500px;font-family:inherit;font-weight:700;font-size:13px;padding:9px 16px;cursor:pointer;flex:none}
 #installX{background:none;border:0;color:#000;padding:6px;display:flex;cursor:pointer;opacity:.7;flex:none}
 #installX svg{width:16px;height:16px}
 .instPill{display:inline-flex;align-items:center;background:rgba(255,255,255,.14);border-radius:500px}
@@ -338,6 +338,7 @@ details.more>summary{cursor:pointer;font-weight:700;font-size:14px;padding:4px 0
     </section>
 
     <section id="v-account" class="view">
+      <div id="installBox"></div>
       <div id="authBox"></div>
       <div id="uploadBox"></div>
       <div id="myUploads"></div>
@@ -1446,7 +1447,19 @@ function renderHeaderUser(){
   else if(name){ av.textContent=name.charAt(0).toUpperCase(); }
   else { av.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>'; }
 }
-function renderAccount(){ renderHeaderUser(); renderAuth(); renderUploadBox(); renderMyUploadsBox(); renderNotifsBox(); renderAdminBox(); renderPremBox(); renderExtrasBox(); }
+function renderAccount(){ renderInstallBox(); renderHeaderUser(); renderAuth(); renderUploadBox(); renderMyUploadsBox(); renderNotifsBox(); renderAdminBox(); renderPremBox(); renderExtrasBox(); }
+
+/* Install button on the Account page: always visible (never hidden by the
+   Home card's 3-day dismiss timer) unless the app is already installed. */
+function renderInstallBox(){
+  const box=$("#installBox"); if(!box) return;
+  box.innerHTML="";
+  if(isStandalone()) return;
+  const d=document.createElement("div"); d.className="card";
+  d.innerHTML='<div class="instCard" style="margin:0"><div class="instIco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="instTx"><b>'+esc(t("installTitle"))+'</b><span>'+esc(t("installSub"))+'</span></div><button id="acctInstallBtn" type="button">'+esc(t("install"))+'</button></div><p id="acctInstallHint" style="display:none;font-size:14px;line-height:1.55;margin:10px 2px 0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 12px"></p>';
+  box.appendChild(d);
+  d.querySelector("#acctInstallBtn").addEventListener("click",()=>doInstall(d.querySelector("#acctInstallHint")));
+}
 
 function renderAuth(){
   const box=$("#authBox"); box.innerHTML="";
@@ -2122,7 +2135,7 @@ function installRow(){
   row.style.display=hide?"none":"block";
 }
 window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferredPrompt=e; installRow(); const h=$("#installHint"); if(h) h.style.display="none"; });
-window.addEventListener("appinstalled",()=>{ deferredPrompt=null; try{ localStorage.setItem("egs_install_x",String(Date.now()+365*864e5)); }catch(e){} installRow(); });
+window.addEventListener("appinstalled",()=>{ deferredPrompt=null; try{ localStorage.setItem("egs_install_x",String(Date.now()+365*864e5)); }catch(e){} installRow(); renderInstallBox(); });
 function showTgPop(){
   const p=$("#tgPop"); if(!p) return;
   p.style.display="flex";
@@ -2131,18 +2144,21 @@ function showTgPop(){
   $("#tgPopLater").addEventListener("click",close);
   p.addEventListener("click",(e)=>{ if(e.target===p) close(); });
 }
+/* Shared install flow for the Home card and the Account button: use the
+   browser install prompt when available, otherwise show the manual steps. */
+async function doInstall(hintEl){
+  if(deferredPrompt){ deferredPrompt.prompt(); try{ await deferredPrompt.userChoice; }catch(e){} deferredPrompt=null; installRow(); renderInstallBox(); return; }
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+  const h=hintEl; if(!h) return;
+  let msg=t(ios?"iosHint":"menuHint");
+  if(!ios && (/\bwv\b/.test(navigator.userAgent)||/Telegram/i.test(navigator.userAgent))) msg=t("wvHint")+"<br><br>"+msg;
+  h.innerHTML=msg; h.style.display="block";
+}
 document.addEventListener("DOMContentLoaded",()=>{
   installRow();
   setTimeout(showTgPop,700);
   $("#installX").addEventListener("click",()=>{ try{ localStorage.setItem("egs_install_x",String(Date.now())); }catch(e){} installRow(); });
-  $("#installBtn").addEventListener("click",async()=>{
-    if(deferredPrompt){ deferredPrompt.prompt(); try{ await deferredPrompt.userChoice; }catch(e){} deferredPrompt=null; installRow(); return; }
-    const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
-    const h=$("#installHint"); if(!h) return;
-    let msg=t(ios?"iosHint":"menuHint");
-    if(!ios && (/\bwv\b/.test(navigator.userAgent)||/Telegram/i.test(navigator.userAgent))) msg=t("wvHint")+"<br><br>"+msg;
-    h.innerHTML=msg; h.style.display="block";
-  });
+  $("#installBtn").addEventListener("click",()=>doInstall($("#installHint")));
 });
 
 /* ================= INIT ================= */
