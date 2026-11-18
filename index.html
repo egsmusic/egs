@@ -261,7 +261,7 @@ body.is-playing #fpCover{animation:none}
 .instIco svg{width:22px;height:22px}
 .instTx{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
 .instTx b{font-size:15px}.instTx span{font-size:12px;opacity:.8}
-#installBtn,#acctInstallBtn{background:#000;color:#fff;border:0;border-radius:500px;font-family:inherit;font-weight:700;font-size:13px;padding:9px 16px;cursor:pointer;flex:none}
+#installBtn,#acctInstallBtn,#updBtn{background:#000;color:#fff;border:0;border-radius:500px;font-family:inherit;font-weight:700;font-size:13px;padding:9px 16px;cursor:pointer;flex:none;text-decoration:none}
 #installX{background:none;border:0;color:#000;padding:6px;display:flex;cursor:pointer;opacity:.7;flex:none}
 #installX svg{width:16px;height:16px}
 .instPill{display:inline-flex;align-items:center;background:rgba(255,255,255,.14);border-radius:500px}
@@ -309,6 +309,7 @@ details.more>summary{cursor:pointer;font-weight:700;font-size:14px;padding:4px 0
     <section id="v-home" class="view on">
       <h2 id="greet" style="font-size:24px;font-weight:800;margin:6px 0 2px"></h2>
       <div id="installRow" style="display:none"><div class="instCard"><div class="instIco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="instTx"><b data-i18n="installTitle">Download the app</b><span data-i18n="installSub">Add Kibir to your home screen</span></div><button id="installBtn" type="button" data-i18n="install">Install</button><button id="installX" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div><p id="installHint" style="display:none;font-size:14px;line-height:1.55;margin:10px 2px 0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 12px"></p></div>
+      <div id="updRow" style="display:none"><div class="instCard"><div class="instIco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="instTx"><b data-i18n="updTitle">Update the app</b><span data-i18n="updSub">A fixed version is out — tap Update to install it</span></div><a id="updBtn" href="https://egsmusic.github.io/egs/kibir-app.apk" data-i18n="update">Update</a><button id="updX" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></div>
       <div class="sec-t"><span data-i18n="newUploads">New uploads</span></div>
       <div class="hrow" id="homeNewRow"></div>
       <div class="sec-t"><span data-i18n="top10">Weekly Top 10</span><small>Week 1</small></div>
@@ -421,7 +422,7 @@ function coverStyle(hue){ return "background:linear-gradient(135deg,hsl("+hue+",
 
 /* ================= I18N ================= */
 const STR = {
-en:{tagline:"Kibir — Ethiopian Gospel Music",installTitle:"Download the app",installSub:"Add Kibir to your home screen",install:"Install",dlApp:"Downloading Kibir…",installedOk:"Installed ✓",iosHint:"To install: tap the Share button (square with an arrow), scroll down and tap \u201cAdd to Home Screen\u201d, then tap \u201cAdd\u201d.",menuHint:"To install: tap \u22ee at the top-right corner of Chrome, then tap \u201cInstall app\u201d (or \u201cAdd to Home screen\u201d), then confirm.",wvHint:"You opened Kibir inside another app, so Chrome can't install from here. Open this page in the Chrome app first, then tap Install.",home:"Home",search:"Search",library:"Library",account:"Account",nowPlaying:"NOW PLAYING",
+en:{tagline:"Kibir — Ethiopian Gospel Music",installTitle:"Download the app",installSub:"Add Kibir to your home screen",install:"Install",updTitle:"Update the app",updSub:"A fixed version is out — tap Update to install it",update:"Update",dlApp:"Downloading Kibir…",installedOk:"Installed ✓",iosHint:"To install: tap the Share button (square with an arrow), scroll down and tap \u201cAdd to Home Screen\u201d, then tap \u201cAdd\u201d.",menuHint:"To install: tap \u22ee at the top-right corner of Chrome, then tap \u201cInstall app\u201d (or \u201cAdd to Home screen\u201d), then confirm.",wvHint:"You opened Kibir inside another app, so Chrome can't install from here. Open this page in the Chrome app first, then tap Install.",home:"Home",search:"Search",library:"Library",account:"Account",nowPlaying:"NOW PLAYING",
 greetM:"Good morning",greetA:"Good afternoon",greetE:"Good evening",
 playlists:"Playlists",hymnsTitle:"Songs",newUploads:"New uploads",top10:"Weekly Top 10",community:"Community uploads",forYou:"For you",allSongs:"All songs",
 searchPh:"Search songs or artists...",noResults:"No results found.",
@@ -453,7 +454,7 @@ errUp:"Couldn't create the account. Try a different email.",
 errUpload:"Upload failed. Please try again.",errPerm:"You don't have permission for that.",
 signedIn:"Welcome!",reportSong:"Report this song",sleepTimer:"Sleep timer",sleepOff:"Turn off timer",sleepEnd:"After this song",sleepMin:"minutes",sleepSet:"Timer set",sleepStopped:"Playback stopped",signedOut:"Signed out.",myAccount:"My account",admin:"Admin",artist:"Artist",artists:"Artists",songs:"songs",playAll:"Play all",back:"Back",updates:"Updates",noUpdates:"No updates yet.",notifApproved:"was approved and is now live ✓",notifRejected:"was not approved",markAllRead:"Mark all read",makeArtist:"Make artist",artistNote:"Uploads are invite-only. Enter the artist's account email to let them upload songs.",artistGranted:"Artist access granted",
 plays:"plays",monthlyListeners:"monthly listeners",errNet:"Connection problem. Try again.",beArtist:"Are you an artist?",beArtistSub:"Only verified artists can upload songs. Apply once — we check your details and approve you.",beArtistSignIn:"Only verified artists can upload songs. Create a free account (or log in) above, then apply here.",aName:"Artist or ministry name",aContact:"Phone or Telegram (so we can verify you)",aLink:"Link to your music (YouTube, Facebook, TikTok…)",aMsg:"Tell us about yourself (optional)",aSend:"Send application",aSent:"Application sent! We will review it soon.",aPending:"Your application is being reviewed. You can upload as soon as it is approved.",aRejected:"Your application was not approved. Check your details and apply again.",aNeed:"Please enter your artist name and a phone or Telegram.",aErr:"Couldn't send your application. Try again later.",appsQ:"Artist applications",noApps:"No applications waiting.",upHeader:"Upload your song",upIntroLive:"3 easy steps. Your song goes live for everyone as soon as you press Publish.",upIntroReview:"3 easy steps. After you press Publish, an admin reviews your song before it goes live.",step1:"Choose your audio file",step2:"Song details",step3:"Cover and lyrics (optional)",pickAudio:"Tap to choose your audio",pickAudioSub:"MP3, M4A, WAV, AAC or OGG — up to 50 MB",pickedAudio:"Audio selected — tap to change",upNotAudio:"That is not an audio file. Choose an MP3, M4A, WAV, AAC or OGG file.",upTooBig:"This file is bigger than 50 MB. Export a smaller MP3 and try again.",upNeedAudio:"Choose an audio file first.",upNeedTitle:"Enter the song title.",upNeedArtist:"Enter the artist name.",upNeedRights:"Tick the box to confirm you have the rights to this music.",rightsChk:"I own this music or have permission to share it. I understand it can be removed if someone reports it.",publish:"Publish song",uploading:"Uploading",songLive:"Your song is live! 🎉",listenNow:"Listen now",upAnother:"Upload another song",myDelete:"Delete",manyTitle:"Upload many songs at once (album)",offlineUp:"You are offline. Connect to the internet to upload.",bulkDoneLive:"All songs are live!",tapToPlay:"Tap \u25b6 to keep the music playing",tgTitle:"Join our Telegram",tgText:"New songs, updates and announcements first — join our Telegram channel.",tgJoin:"Join Telegram",tgLater:"Not now"},
-am:{tagline:"ኪብር — የኢትዮጵያ የወንጌል ሙዚቃ",installTitle:"መተግበሪያውን አውርድ",installSub:"Kibirን ወደ መነሻ ማያ ገጽዎ ጨምር",install:"ጫን",dlApp:"Kibirን በማውረድ ላይ…",installedOk:"ተጭኗል ✓",iosHint:"ለመጫን: የShare ቁልፉን (አራት ማዕዘኑን ከቀስቱ ጋር) ይንኩ፣ ወደ ታች ያሸብልሉና «ወደ መነሻ ማያ ገጽ ጨምር» ይንኩ፣ ከዚያ «ጨምር» ይንኩ።",menuHint:"ለመጫን: በChrome ላይኛው ቀኝ ጥግ ላይ ያለውን \u22ee ይንኩ፣ ከዚያ «መተግበሪያ ጫን» (ወይም «ወደ መነሻ ማያ ገጽ ጨምር») ይንኩ፣ ከዚያ ያረጋግጡ።",wvHint:"Kibirን በሌላ መተግበሪያ ውስጥ ከፍተዋል፤ ከዚህ መጫን አይቻልም። መጀመሪያ ይህን ገጽ በChrome መተግበሪያ ይክፈቱ፣ ከዚያ «ጫን» ይንኩ።",home:"መነሻ",search:"ፍለጋ",library:"ላይብረሪ",account:"መለያ",nowPlaying:"አሁን እየተጫወተ",
+am:{tagline:"ኪብር — የኢትዮጵያ የወንጌል ሙዚቃ",installTitle:"መተግበሪያውን አውርድ",installSub:"Kibirን ወደ መነሻ ማያ ገጽዎ ጨምር",install:"ጫን",updTitle:"መተግበሪያውን አዘምን",updSub:"የተስተካከለ ስሪት ወጥቷል — ለመጫን Update ን ይንኩ",update:"አዘምን",dlApp:"Kibirን በማውረድ ላይ…",installedOk:"ተጭኗል ✓",iosHint:"ለመጫን: የShare ቁልፉን (አራት ማዕዘኑን ከቀስቱ ጋር) ይንኩ፣ ወደ ታች ያሸብልሉና «ወደ መነሻ ማያ ገጽ ጨምር» ይንኩ፣ ከዚያ «ጨምር» ይንኩ።",menuHint:"ለመጫን: በChrome ላይኛው ቀኝ ጥግ ላይ ያለውን \u22ee ይንኩ፣ ከዚያ «መተግበሪያ ጫን» (ወይም «ወደ መነሻ ማያ ገጽ ጨምር») ይንኩ፣ ከዚያ ያረጋግጡ።",wvHint:"Kibirን በሌላ መተግበሪያ ውስጥ ከፍተዋል፤ ከዚህ መጫን አይቻልም። መጀመሪያ ይህን ገጽ በChrome መተግበሪያ ይክፈቱ፣ ከዚያ «ጫን» ይንኩ።",home:"መነሻ",search:"ፍለጋ",library:"ላይብረሪ",account:"መለያ",nowPlaying:"አሁን እየተጫወተ",
 greetM:"እንደምን አደሩ",greetA:"እንደምን ዋሉ",greetE:"እንደምን አመሹ",
 playlists:"የዘፈን ዝርዝሮች",hymnsTitle:"ዜማዎች",newUploads:"አዳዲስ ዜማዎች",top10:"ሳምንታዊ ምርጥ 10",community:"የማኅበረሰብ ስቅሎች",forYou:"ለእርስዎ",allSongs:"ሁሉም ዜማዎች",
 searchPh:"ዜማ ወይም ድምጻዊ ፈልግ...",noResults:"ምንም አልተገኘም።",
@@ -2135,6 +2136,12 @@ function installRow(){
   try{ const x=+localStorage.getItem("egs_install_x")||0; if(x && Date.now()-x<3*864e5) hide=true; }catch(e){}
   row.style.display=hide?"none":"block";
 }
+function updRow(){
+  const row=$("#updRow"); if(!row) return;
+  let hide=false;
+  try{ const x=+localStorage.getItem("egs_upd_x")||0; if(x && Date.now()-x<3*864e5) hide=true; }catch(e){}
+  row.style.display=hide?"none":"block";
+}
 window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferredPrompt=e; installRow(); const h=$("#installHint"); if(h) h.style.display="none"; });
 window.addEventListener("appinstalled",()=>{ deferredPrompt=null; try{ localStorage.setItem("egs_install_x",String(Date.now()+365*864e5)); }catch(e){} installRow(); renderInstallBox(); });
 function showTgPop(){
@@ -2187,8 +2194,10 @@ async function showInstallProgress(){
 }
 document.addEventListener("DOMContentLoaded",()=>{
   installRow();
+  updRow();
   setTimeout(showTgPop,700);
   $("#installX").addEventListener("click",()=>{ try{ localStorage.setItem("egs_install_x",String(Date.now())); }catch(e){} installRow(); });
+  $("#updX").addEventListener("click",()=>{ try{ localStorage.setItem("egs_upd_x",String(Date.now())); }catch(e){} updRow(); });
   $("#installBtn").addEventListener("click",()=>doInstall($("#installHint")));
 });
 /* Auto install: show the browser install prompt by itself on the visitor's
