@@ -1271,6 +1271,11 @@ function openLiked(){ openPlaylistPage("__liked__"); }
 /* ---- native-app bridge (the Android wrapper calls into these; every call
    is guarded so the site works exactly the same in a normal browser) ---- */
 function nb(){ try{ return window.KibirNative||null; }catch(e){ return null; } }
+/* In-app? The Android wrapper injects window.KibirNative and appends
+   "KibirApp/x.y.z" to the UA. Auth must return to the site URL the app
+   handles as an App Link, so Chrome hands the user back to the app. */
+const APP_HOME = "https://egsmusic.github.io/egs/";
+function inApp(){ try{ if(window.KibirNative) return true; }catch(e){} return /KibirApp/i.test(navigator.userAgent||""); }
 function nbTrack(){
   const n=nb(); if(!n||typeof n.onTrackChanged!=="function") return;
   const s=Player.song(); if(!s) return;
@@ -2185,7 +2190,7 @@ function renderAuth(){
         if(error) throw error;
         S.user=data.user; toast(t("signedIn")); await refreshAfterAuth(); await resumePendingPlay();
       }else{
-        const {data,error}=await supa.auth.signUp({email,password:pw});
+        const {data,error}=await supa.auth.signUp({email,password:pw,options:inApp()?{emailRedirectTo:APP_HOME}:{}});
         if(error) throw error;
         if(data.session){ S.user=data.user; toast(t("signedIn")); await refreshAfterAuth(); await resumePendingPlay(); }
         else showVerifyScreen(box, email);
@@ -2195,7 +2200,7 @@ function renderAuth(){
   d.querySelector("#aGoogle").addEventListener("click",async()=>{
     const note=d.querySelector("#aNote"); note.textContent="";
     try{
-      const {error}=await supa.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.href.split("?")[0].split("#")[0]}});
+      const {error}=await supa.auth.signInWithOAuth({provider:"google",options:{redirectTo:inApp()?APP_HOME:location.href.split("?")[0].split("#")[0]}});
       if(error) throw error;
     }catch(e){ note.textContent=t("errOAuth"); }
   });
@@ -2215,7 +2220,7 @@ function showVerifyScreen(box, email){
   d.querySelector("#vResend").addEventListener("click",async()=>{
     const n=d.querySelector("#vNote"); n.textContent="⏳";
     try{
-      const {error}=await supa.auth.resend({type:"signup", email:email});
+      const {error}=await supa.auth.resend({type:"signup", email:email, options:inApp()?{emailRedirectTo:APP_HOME}:{}});
       if(error) throw error;
       n.textContent=t("resent");
     }catch(e){ n.textContent="⚠ "+(e.message||t("errNet")); }
