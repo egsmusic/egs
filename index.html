@@ -476,7 +476,7 @@ details.more>summary{cursor:pointer;font-weight:700;font-size:14px;padding:4px 0
 const SUPA_URL = "https://xhstkljqhulkkwfrwqpv.supabase.co";
 const SUPA_KEY = "sb_publishable_p5jFsc2XAwb240EF2Yv9Lg_6AtoxzoE";
 let supa = null;
-try { if (window.supabase && window.supabase.createClient) supa = window.supabase.createClient(SUPA_URL, SUPA_KEY); } catch(e){ supa = null; }
+try { if (window.supabase && window.supabase.createClient) supa = window.supabase.createClient(SUPA_URL, SUPA_KEY, {auth:{flowType:inApp()?"pkce":"implicit"}}); } catch(e){ supa = null; }
 
 /* ================= HELPERS ================= */
 const $ = s => document.querySelector(s);
