@@ -1589,6 +1589,10 @@ function syncPlayerUI(){
 }
 /* ================= MEDIA SESSION (lock screen / headphone controls) ================= */
 function updateMediaSession(){
+  /* In the app the native PlaybackService owns media controls, so the
+     WebView must not run its own media session (it conflicts with the
+     native one and can pause the song). Browsers keep it as before. */
+  if(inApp()) return;
   if(!("mediaSession" in navigator)) return;
   const s=Player.song();
   if(!s){ navigator.mediaSession.metadata=null; return; }
@@ -1599,6 +1603,7 @@ function updateMediaSession(){
   }catch(e){}
 }
 (function initMediaSession(){
+  if(inApp()) return; /* native PlaybackService owns media controls in-app */
   if(!("mediaSession" in navigator)) return;
   const set=(a,fn)=>{ try{ navigator.mediaSession.setActionHandler(a,fn); }catch(e){} };
   set("play",()=>{ if(!Player.playing) Player.toggle(); });
