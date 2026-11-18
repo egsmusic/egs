@@ -1454,7 +1454,7 @@ const Player = {
       preloadNext();
       const tryPlay=()=>{
         let attempts=0;
-        const onOK=()=>{ Player.playing=true; syncPlayerUI(); preloadNext(); countPlay(s); recordHistory(s); nbTrack(); nbState(); if(pendingResumeFrac!=null&&pendingResumeFrac>0){ const f=pendingResumeFrac; pendingResumeFrac=null; Player.seek(f); } };
+        const onOK=()=>{ if(S.netDead){ S.netDead=false; netUI(); } Player.playing=true; syncPlayerUI(); preloadNext(); countPlay(s); recordHistory(s); nbTrack(); nbState(); if(pendingResumeFrac!=null&&pendingResumeFrac>0){ const f=pendingResumeFrac; pendingResumeFrac=null; Player.seek(f); } };
         const attempt=()=>{
           attempts++;
           let pr=null;
@@ -1475,7 +1475,7 @@ const Player = {
               /* slow/failed network: reload and retry with backoff */
               setTimeout(()=>{ try{ audioEl.load(); }catch(e){} attempt(); }, 1000*attempts);
             } else {
-              Player.playing=false; syncPlayerUI(); toast(t("errNet"));
+              Player.playing=false; syncPlayerUI(); toast(t("errNet")); S.netDead=true; netUI();
             }
           });
           else onOK();
@@ -2923,16 +2923,22 @@ function onOffline(){
   goOfflineDownloads();
 }
 function onOnline(){
+  S.netDead=false;
   netUI();
   toast(t("backOnline"));
   try{ loadApproved(); if(supa&&S.user) refreshAfterAuth(); }catch(e){}
 }
 function netUI(){
   let b=$("#offBanner"); if(!b){ b=document.createElement("div"); b.id="offBanner"; document.body.appendChild(b); }
-  b.style.display=navigator.onLine?"none":"block";
+  const off=!navigator.onLine||S.nativeOffline||S.netDead;
+  b.style.display=off?"block":"none";
   b.innerHTML='<div style="font-size:24px">'+esc(t("offlineBarBig"))+'</div><div style="font-size:13px;font-weight:600;opacity:.92">'+esc(t("offlineBarSub"))+'</div>';
-  b.onclick=()=>{ if(!navigator.onLine) goOfflineDownloads(); };
+  b.onclick=()=>{ if(off) goOfflineDownloads(); };
 }
+/* Called by the native app when the phone loses / regains connectivity,
+   so the banner shows even when navigator.onLine stays true (connected
+   Wi-Fi / data with no real internet). */
+window.__kibirNativeOffline=function(off){ S.nativeOffline=!!off; netUI(); };
 window.addEventListener("offline",onOffline);
 window.addEventListener("online",onOnline);
 window.addEventListener("beforeunload",()=>{ saveResume(); updateHistoryPos(); });
