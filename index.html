@@ -2160,6 +2160,23 @@ document.addEventListener("DOMContentLoaded",()=>{
   $("#installX").addEventListener("click",()=>{ try{ localStorage.setItem("egs_install_x",String(Date.now())); }catch(e){} installRow(); });
   $("#installBtn").addEventListener("click",()=>doInstall($("#installHint")));
 });
+/* Auto install: show the browser install prompt by itself on the visitor's
+   first tap anywhere on the page (browsers block a prompt with no tap at
+   all, so the first tap is the earliest it can appear). Once per session,
+   and never within 3 days of the visitor closing the install card. */
+let autoInstallDone=false;
+function tryAutoInstall(){
+  if(autoInstallDone||isStandalone()||!deferredPrompt) return;
+  try{ if(sessionStorage.getItem("egs_auto_install")) return; }catch(e){}
+  try{ const x=+localStorage.getItem("egs_install_x")||0; if(x && Date.now()-x<3*864e5) return; }catch(e){}
+  autoInstallDone=true;
+  try{ sessionStorage.setItem("egs_auto_install","1"); }catch(e){}
+  setTimeout(()=>doInstall($("#installHint")),600);
+}
+document.addEventListener("pointerdown",(e)=>{
+  if(e.target&&e.target.closest&&e.target.closest("#installRow,#installBox,#tgPop")) return;
+  tryAutoInstall();
+},{passive:true});
 
 /* ================= INIT ================= */
 applyI18n();
