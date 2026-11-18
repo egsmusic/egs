@@ -339,6 +339,7 @@ details.more>summary{cursor:pointer;font-weight:700;font-size:14px;padding:4px 0
 
     <section id="v-account" class="view">
       <div id="installBox"></div>
+      <div id="instProg" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.7);align-items:center;justify-content:center"><div style="background:#fff;color:#111;border-radius:16px;padding:22px;width:min(320px,86vw);text-align:center"><b id="instProgTx" data-i18n="dlApp">Downloading Kibir…</b><div style="height:10px;background:#e5e5e5;border-radius:99px;margin:14px 0 8px;overflow:hidden"><div id="instProgBar" style="height:100%;width:0%;background:#2E7CF6;border-radius:99px"></div></div><span id="instProgPct">0%</span></div></div>
       <div id="authBox"></div>
       <div id="uploadBox"></div>
       <div id="myUploads"></div>
@@ -420,7 +421,7 @@ function coverStyle(hue){ return "background:linear-gradient(135deg,hsl("+hue+",
 
 /* ================= I18N ================= */
 const STR = {
-en:{tagline:"Kibir — Ethiopian Gospel Music",installTitle:"Download the app",installSub:"Add Kibir to your home screen",install:"Install",iosHint:"To install: tap the Share button (square with an arrow), scroll down and tap \u201cAdd to Home Screen\u201d, then tap \u201cAdd\u201d.",menuHint:"To install: tap \u22ee at the top-right corner of Chrome, then tap \u201cInstall app\u201d (or \u201cAdd to Home screen\u201d), then confirm.",wvHint:"You opened Kibir inside another app, so Chrome can't install from here. Open this page in the Chrome app first, then tap Install.",home:"Home",search:"Search",library:"Library",account:"Account",nowPlaying:"NOW PLAYING",
+en:{tagline:"Kibir — Ethiopian Gospel Music",installTitle:"Download the app",installSub:"Add Kibir to your home screen",install:"Install",dlApp:"Downloading Kibir…",installedOk:"Installed ✓",iosHint:"To install: tap the Share button (square with an arrow), scroll down and tap \u201cAdd to Home Screen\u201d, then tap \u201cAdd\u201d.",menuHint:"To install: tap \u22ee at the top-right corner of Chrome, then tap \u201cInstall app\u201d (or \u201cAdd to Home screen\u201d), then confirm.",wvHint:"You opened Kibir inside another app, so Chrome can't install from here. Open this page in the Chrome app first, then tap Install.",home:"Home",search:"Search",library:"Library",account:"Account",nowPlaying:"NOW PLAYING",
 greetM:"Good morning",greetA:"Good afternoon",greetE:"Good evening",
 playlists:"Playlists",hymnsTitle:"Songs",newUploads:"New uploads",top10:"Weekly Top 10",community:"Community uploads",forYou:"For you",allSongs:"All songs",
 searchPh:"Search songs or artists...",noResults:"No results found.",
@@ -452,7 +453,7 @@ errUp:"Couldn't create the account. Try a different email.",
 errUpload:"Upload failed. Please try again.",errPerm:"You don't have permission for that.",
 signedIn:"Welcome!",reportSong:"Report this song",sleepTimer:"Sleep timer",sleepOff:"Turn off timer",sleepEnd:"After this song",sleepMin:"minutes",sleepSet:"Timer set",sleepStopped:"Playback stopped",signedOut:"Signed out.",myAccount:"My account",admin:"Admin",artist:"Artist",artists:"Artists",songs:"songs",playAll:"Play all",back:"Back",updates:"Updates",noUpdates:"No updates yet.",notifApproved:"was approved and is now live ✓",notifRejected:"was not approved",markAllRead:"Mark all read",makeArtist:"Make artist",artistNote:"Uploads are invite-only. Enter the artist's account email to let them upload songs.",artistGranted:"Artist access granted",
 plays:"plays",monthlyListeners:"monthly listeners",errNet:"Connection problem. Try again.",beArtist:"Are you an artist?",beArtistSub:"Only verified artists can upload songs. Apply once — we check your details and approve you.",beArtistSignIn:"Only verified artists can upload songs. Create a free account (or log in) above, then apply here.",aName:"Artist or ministry name",aContact:"Phone or Telegram (so we can verify you)",aLink:"Link to your music (YouTube, Facebook, TikTok…)",aMsg:"Tell us about yourself (optional)",aSend:"Send application",aSent:"Application sent! We will review it soon.",aPending:"Your application is being reviewed. You can upload as soon as it is approved.",aRejected:"Your application was not approved. Check your details and apply again.",aNeed:"Please enter your artist name and a phone or Telegram.",aErr:"Couldn't send your application. Try again later.",appsQ:"Artist applications",noApps:"No applications waiting.",upHeader:"Upload your song",upIntroLive:"3 easy steps. Your song goes live for everyone as soon as you press Publish.",upIntroReview:"3 easy steps. After you press Publish, an admin reviews your song before it goes live.",step1:"Choose your audio file",step2:"Song details",step3:"Cover and lyrics (optional)",pickAudio:"Tap to choose your audio",pickAudioSub:"MP3, M4A, WAV, AAC or OGG — up to 50 MB",pickedAudio:"Audio selected — tap to change",upNotAudio:"That is not an audio file. Choose an MP3, M4A, WAV, AAC or OGG file.",upTooBig:"This file is bigger than 50 MB. Export a smaller MP3 and try again.",upNeedAudio:"Choose an audio file first.",upNeedTitle:"Enter the song title.",upNeedArtist:"Enter the artist name.",upNeedRights:"Tick the box to confirm you have the rights to this music.",rightsChk:"I own this music or have permission to share it. I understand it can be removed if someone reports it.",publish:"Publish song",uploading:"Uploading",songLive:"Your song is live! 🎉",listenNow:"Listen now",upAnother:"Upload another song",myDelete:"Delete",manyTitle:"Upload many songs at once (album)",offlineUp:"You are offline. Connect to the internet to upload.",bulkDoneLive:"All songs are live!",tapToPlay:"Tap \u25b6 to keep the music playing",tgTitle:"Join our Telegram",tgText:"New songs, updates and announcements first — join our Telegram channel.",tgJoin:"Join Telegram",tgLater:"Not now"},
-am:{tagline:"ኪብር — የኢትዮጵያ የወንጌል ሙዚቃ",installTitle:"መተግበሪያውን አውርድ",installSub:"Kibirን ወደ መነሻ ማያ ገጽዎ ጨምር",install:"ጫን",iosHint:"ለመጫን: የShare ቁልፉን (አራት ማዕዘኑን ከቀስቱ ጋር) ይንኩ፣ ወደ ታች ያሸብልሉና «ወደ መነሻ ማያ ገጽ ጨምር» ይንኩ፣ ከዚያ «ጨምር» ይንኩ።",menuHint:"ለመጫን: በChrome ላይኛው ቀኝ ጥግ ላይ ያለውን \u22ee ይንኩ፣ ከዚያ «መተግበሪያ ጫን» (ወይም «ወደ መነሻ ማያ ገጽ ጨምር») ይንኩ፣ ከዚያ ያረጋግጡ።",wvHint:"Kibirን በሌላ መተግበሪያ ውስጥ ከፍተዋል፤ ከዚህ መጫን አይቻልም። መጀመሪያ ይህን ገጽ በChrome መተግበሪያ ይክፈቱ፣ ከዚያ «ጫን» ይንኩ።",home:"መነሻ",search:"ፍለጋ",library:"ላይብረሪ",account:"መለያ",nowPlaying:"አሁን እየተጫወተ",
+am:{tagline:"ኪብር — የኢትዮጵያ የወንጌል ሙዚቃ",installTitle:"መተግበሪያውን አውርድ",installSub:"Kibirን ወደ መነሻ ማያ ገጽዎ ጨምር",install:"ጫን",dlApp:"Kibirን በማውረድ ላይ…",installedOk:"ተጭኗል ✓",iosHint:"ለመጫን: የShare ቁልፉን (አራት ማዕዘኑን ከቀስቱ ጋር) ይንኩ፣ ወደ ታች ያሸብልሉና «ወደ መነሻ ማያ ገጽ ጨምር» ይንኩ፣ ከዚያ «ጨምር» ይንኩ።",menuHint:"ለመጫን: በChrome ላይኛው ቀኝ ጥግ ላይ ያለውን \u22ee ይንኩ፣ ከዚያ «መተግበሪያ ጫን» (ወይም «ወደ መነሻ ማያ ገጽ ጨምር») ይንኩ፣ ከዚያ ያረጋግጡ።",wvHint:"Kibirን በሌላ መተግበሪያ ውስጥ ከፍተዋል፤ ከዚህ መጫን አይቻልም። መጀመሪያ ይህን ገጽ በChrome መተግበሪያ ይክፈቱ፣ ከዚያ «ጫን» ይንኩ።",home:"መነሻ",search:"ፍለጋ",library:"ላይብረሪ",account:"መለያ",nowPlaying:"አሁን እየተጫወተ",
 greetM:"እንደምን አደሩ",greetA:"እንደምን ዋሉ",greetE:"እንደምን አመሹ",
 playlists:"የዘፈን ዝርዝሮች",hymnsTitle:"ዜማዎች",newUploads:"አዳዲስ ዜማዎች",top10:"ሳምንታዊ ምርጥ 10",community:"የማኅበረሰብ ስቅሎች",forYou:"ለእርስዎ",allSongs:"ሁሉም ዜማዎች",
 searchPh:"ዜማ ወይም ድምጻዊ ፈልግ...",noResults:"ምንም አልተገኘም።",
@@ -2147,12 +2148,42 @@ function showTgPop(){
 /* Shared install flow for the Home card and the Account button: use the
    browser install prompt when available, otherwise show the manual steps. */
 async function doInstall(hintEl){
-  if(deferredPrompt){ deferredPrompt.prompt(); try{ await deferredPrompt.userChoice; }catch(e){} deferredPrompt=null; installRow(); renderInstallBox(); return; }
+  if(deferredPrompt){ deferredPrompt.prompt(); let accepted=false; try{ const c=await deferredPrompt.userChoice; accepted=c&&c.outcome==="accepted"; }catch(e){} deferredPrompt=null; installRow(); renderInstallBox(); if(accepted) showInstallProgress(); return; }
   const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
   const h=hintEl; if(!h) return;
   let msg=t(ios?"iosHint":"menuHint");
   if(!ios && (/\bwv\b/.test(navigator.userAgent)||/Telegram/i.test(navigator.userAgent))) msg=t("wvHint")+"<br><br>"+msg;
   h.innerHTML=msg; h.style.display="block";
+}
+/* Install progress: after the visitor accepts the install prompt, show a
+   real download percentage while the app's own files come down (the
+   browser's install prompt itself reports no progress, so we measure the
+   app files: index, manifest, icons, supabase lib). */
+async function showInstallProgress(){
+  const ov=$("#instProg"); if(!ov) return;
+  ov.style.display="flex";
+  const bar=$("#instProgBar"), pct=$("#instProgPct"), tx=$("#instProgTx");
+  if(tx) tx.textContent=t("dlApp");
+  const setP=(p)=>{ p=Math.max(0,Math.min(100,Math.round(p))); if(bar) bar.style.width=p+"%"; if(pct) pct.textContent=p+"%"; };
+  const files=["index.html","manifest.json","icon-192.png","icon-512.png","supabase.min.js"];
+  try{
+    const resps=await Promise.all(files.map(f=>fetch(f)));
+    const sizes=resps.map(r=>+r.headers.get("content-length")||0);
+    const total=sizes.reduce((a,b)=>a+b,0);
+    if(total>0){
+      let done=0;
+      for(let i=0;i<resps.length;i++){
+        if(!resps[i].body){ done+=sizes[i]; setP(done/total*100); continue; }
+        const rd=resps[i].body.getReader();
+        for(;;){ const {done:ed,value}=await rd.read(); if(ed) break; done+=value.length; setP(done/total*100); }
+      }
+    }else{
+      for(let i=0;i<resps.length;i++){ await resps[i].arrayBuffer(); setP((i+1)/resps.length*100); }
+    }
+    setP(100);
+    if(tx) tx.textContent=t("installedOk");
+    setTimeout(()=>{ ov.style.display="none"; },1500);
+  }catch(e){ ov.style.display="none"; }
 }
 document.addEventListener("DOMContentLoaded",()=>{
   installRow();
