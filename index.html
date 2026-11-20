@@ -1004,7 +1004,7 @@ function recordHistory(s){
   historyList=historyList.slice(0,60); saveHistory();
 }
 function updateHistoryPos(){
-  const s=Player.song(); if(!s||!Player.playing) return;
+  const s=Player.song(); if(!s) return;
   const h=historyList.find(x=>x.id===s.id);
   if(h){ h.pos=Player.pos(); h.dur=Player.dur()||h.dur||0; h.at=Date.now(); saveHistory(); }
 }
@@ -1182,7 +1182,13 @@ function renderSuggestions(){
       const pct=dur>0?Math.round(pos/dur*100):0;
       const pb=document.createElement("div"); pb.className="progbar"; pb.innerHTML='<i style="width:'+pct+'%"></i>';
       card.appendChild(pb);
-      card.addEventListener("click",()=>{ pendingResumeFrac=dur>0?pos/dur:0; },{once:true});
+      card.addEventListener("click",()=>{
+        /* Read the position live at tap time: the card was rendered with
+           the position from the last Home render, which goes stale while
+           the song keeps playing (used to resume ~48s behind). */
+        const h=historyList.find(x=>x.id===s.id);
+        pendingResumeFrac=(h&&h.dur>0)?h.pos/h.dur:(dur>0?pos/dur:0);
+      },{once:true});
       cr.appendChild(card);
     });
   }
